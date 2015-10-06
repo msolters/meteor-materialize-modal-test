@@ -6,19 +6,29 @@
 <body>
   <!--  There's nothing here that has any effect on our MaterializeModal use in this example. -->
   <div class="container">
+    <h4>Source</h4>
     <p>
-      Open a MaterializeModal with a reactive data context and a custom template.  Here's the code:
-    </p>
-    <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s6">
-          <a href="#javascript" class="active">Javascript</a>
+      Open a MaterializeModal with a custom template <i>and</i> a reactive data context!  All we need to do is:
+      <ul>
+        <li>
+          Write the template we want to appear in the modal.
         </li>
-        <li class="tab col s6">
-          <a href="#html">HTML</a>
+        <li>
+          Write the JS call logic for creating the modal.
         </li>
       </ul>
+    </p>
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6">
+            <a href="#javascript" class="active">Javascript</a>
+          </li>
+          <li class="tab col s6">
+            <a href="#html">HTML</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="javascript" class="col s12">
       {{#prism language="js" class="line-numbers"}}
@@ -63,7 +73,7 @@
           </p>
           <blockquote>
              <!-- Note: We are just using a simple Template helper here.  -->
-             <code>{{|exampleMessage}}</code>.
+             <code>{{|exampleMessage}}</code>
           </blockquote>
           <p>
             Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
@@ -71,7 +81,7 @@
         </template>
       {{/prism}}
     </div>
-  </div>
+    <h4>Explanation</h4>
     <p>
       In <b>steps (1-2)</b>, we are just creating a simple reactive data object.  Note that this will require the reactive-var package:
     </p>
@@ -108,7 +118,7 @@
   </p>
   <blockquote>
      <!-- Note: We are just using a simple Template helper here.  -->
-     <code>{{exampleMessage}}</code>.
+     <code>{{exampleMessage}}</code>
   </blockquote>
   <p>
     Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
