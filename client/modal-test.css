@@ -1,0 +1,14 @@
+html {
+  font-size: 16px;
+}
+h1 {
+  word-break: break-all;
+}
+.toc-wrapper {
+  position: fixed;
+}
+@media only screen and (min-width: 601px) {
+  a.brand-logo {
+    padding-left: 15px;
+  }
+}
