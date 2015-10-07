@@ -1,3 +1,4 @@
+
 <template name="message">
   <p>
     Use this to display a simple dismissable message to the user.
@@ -36,6 +37,70 @@
   });
   {{/prism}}
   <button id="example-error" type="button" class="waves-effect waves-light btn-large">Show me an Error!</button>
+</template>
+
+<template name="loading">
+  <p>
+    When you are waiting for something indeterminate, you can use the loading modal.
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.loading();
+  {{/prism}}
+  <p>
+    <button id="example-loading" type="button" class="waves-effect waves-light btn-large">Show me the Loader!</button>
+  </p>
+</template>
+
+<template name="progress">
+  <p>
+    If you want to display loading progress that has a known set of checkpoints, you can use the progress modal.
+  </p>
+  <p>
+    The general form of use is:
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+    MaterializeModal.progress({
+      progress: 0.75,
+      message: "Computing checksum..."
+    });
+  {{/prism}}
+  <p>
+    <ul>
+      <li>
+        <code class="language-javascript">progress</code> must be a float between 0 and 1!  You can use a reactive variable for the progress amount, or just pass in something static.
+      </li>
+      <li>
+        <code class="language-javascript">message</code> is optional.
+      </li>
+    </ul>
+  </p>
+  <p>
+    Here's an example.  We're just going to update the progress modal by going through a finite array of fake progress points, one every second:
+  </p>
+  {{#prism language="javascript"}}
+  var step = 0;
+  var steps = [ "Starting up", "Computing checksums", "Verifying sanity", "Losing sanity", "Oh, there it is again.", "Questioning existence", "All Done!" ];
+  var nextStep = function() {
+    // (1)  Compute progress of this step
+    var progress = (step+1) / steps.length;
+    // (2) Update progress modal!
+    MaterializeModal.progress({
+      progress: progress,
+      message: steps[step]
+    });
+    // (3) If there's another step, let's go to it in 1 second.
+    if (step+1 === steps.length) {
+      return;
+    } else {
+      step++;
+      Meteor.setTimeout(nextStep, 1000);
+    }
+  }
+  nextStep();
+  {{/prism}}
+  <p>
+    <button id="example-progress" type="button" class="waves-effect waves-light btn-large">Show me the Progress!</button>
+  </p>
 </template>
 
 <template name="confirm">
@@ -82,9 +147,8 @@
 
 <template name="form">
   <p>
-    If you want to get more data than a prompt provides, just pass a template of inputs into the <code class="language-javascript">bodyTemplate</code> property.
+    If you want to get more data than a prompt, just pass a template of inputs into the <code class="language-javascript">bodyTemplate</code> property.
   </p>
-  <button id="example-form" type="button" class="waves-effect waves-light btn-large">Show me a Form!</button>
   <div class="row">
     <div class="col s12">
       <ul class="tabs">
@@ -97,7 +161,7 @@
       </ul>
     </div>
   </div>
-  <div id="form-javascript" class="col s12">
+  <div id="form-javascript">
     {{#prism language="js" class="line-numbers"}}
     MaterializeModal.form({
       title: "Enter some Data!",
@@ -115,7 +179,7 @@
     });
     {{/prism}}
   </div>
-  <div id="form-html" class="col s12">
+  <div id="form-html">
     {{#prism language="blaze" class="line-numbers"}}
     &lt;template name=&quot;my-form&quot;&gt;
       &lt;div class=&quot;row&quot;&gt;
@@ -149,6 +213,9 @@
     &lt;/template&gt;
     {{/prism}}
   </div>
+  <p>
+    <button id="example-form" type="button" class="waves-effect waves-light btn-large">Show me a Form!</button>
+  </p>
   <div class="row">
     <div class="col s1">
       <i class="material-icons col s1 red-text">info</i>
@@ -169,6 +236,9 @@
       </ul>
     </div>
   </div>
+  <p>
+    Personally, I'd recommend handling all your form logic inside your template, and then just use <code class="language-javascript">MaterializeModal.close()</code> to close the parent modal when you're done handling submission!  Then you'll have much finer-grained control to parse and validate your forms.
+  </p>
 </template>
 
 <template name="my-form">

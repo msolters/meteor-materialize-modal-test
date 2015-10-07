@@ -26,6 +26,36 @@ Template.error.events({
   }
 });
 
+Template.loading.events({
+  "click button#example-loading": function(e, tmpl) {
+    MaterializeModal.loading();
+  }
+});
+
+Template.progress.events({
+  "click button#example-progress": function(e, tmpl) {
+    var step = 0;
+    var steps = [ "Starting up", "Computing checksums", "Verifying sanity", "Losing sanity", "Oh, there it is again.", "Questioning existence", "All Done!" ];
+    var nextStep = function() {
+      // (1)  Compute progress of this step
+      var progress = (step+1) / steps.length;
+      // (2) Update progress modal!
+      MaterializeModal.progress({
+        progress: progress,
+        message: steps[step]
+      });
+      // (3) If there's another step, let's go to it in 1 second.
+      if (step+1 === steps.length) {
+        return;
+      } else {
+        step++;
+        Meteor.setTimeout(nextStep, 1000);
+      }
+    }
+    nextStep();
+  }
+});
+
 Template.confirm.events({
   "click button#example-confirm": function(e, tmpl) {
     MaterializeModal.confirm({
@@ -89,23 +119,3 @@ Template.reactiveDataContext.events({
     });
   }
 });
-
-/*
-//  (1) Create a reactive-var.
-//      Make sure we can access it from the console.
-window.exampleMessage = new ReactiveVar();
-//  (2) Set it to a value.
-window.exampleMessage.set("Hello world!");
-
-//  (3) Create a MaterializeModal.
-MaterializeModal.message({ bodyTemplate: "reactiveModal", title: "Reactive Modal Example!", exampleMessage: window.exampleMessage });
-
-//  (4) We just create simple .get() helpers to grab the
-//      value of any reactive-vars we passed into our
-//      MaterializeModal.
-Template.reactiveModal.helpers({
-  exampleMessage: function() {
-    return this.exampleMessage.get();
-  }
-});
-*/

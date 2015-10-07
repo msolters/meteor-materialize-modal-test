@@ -5,19 +5,29 @@
 
 <body>
 
-  <nav class="red lighten-1">
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">MaterializeModal</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li>
-          <a href="http://github.com/msolters/meteor-materialize-modal">GitHub</a>
-        </li>
-        <li>
-          <a href="https://atmospherejs.com/pfafman/materialize-modal">Atmosphere</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <ul id="source-dropdown" class="dropdown-content">
+    <li>
+      <a href="http://github.com/msolters/meteor-materialize-modal">MaterializeModal</a>
+    </li>
+    <li>
+      <a href="http://github.com/msolters/meteor-materialize-modal-test">This Page!</a>
+    </li>
+  </ul>
+  <div class="navbar-fixed">
+    <nav class="red lighten-1">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo hide-on-med-and-down">MaterializeModal</a>
+        <ul id="nav-mobile" class="right">
+          <li>
+            <a href="https://atmospherejs.com/pfafman/materialize-modal">Atmosphere</a>
+          </li>
+          <li>
+            <a class="dropdown-button" href="#!" data-activates="source-dropdown" data-beloworigin="true">Get the Code!<i class="material-icons right">code</i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
   <main>
     <div class="container">
@@ -115,6 +125,14 @@
           <div id="error" class="section scrollspy">
             <h4>Error</h4>
             {{> error}}
+          </div>
+          <div id="loading" class="section scrollspy">
+            <h4>Loading</h4>
+            {{> loading}}
+          </div>
+          <div id="progress" class="section scrollspy">
+            <h4>Progress</h4>
+            {{> progress}}
           </div>
           <div id="confirm" class="section scrollspy">
             <h4>Confirm</h4>
