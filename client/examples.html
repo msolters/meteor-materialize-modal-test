@@ -1,0 +1,276 @@
+<template name="message">
+  <p>
+    Use this to display a simple dismissable message to the user.
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.message({
+    title: "MaterializeModal Message!",
+    message: "Put your message content here!"
+  });
+  {{/prism}}
+  <button id="example-message" type="button" class="waves-effect waves-light btn-large">Show me a Message!</button>
+</template>
+
+<template name="alert">
+  <p>
+    When you need to grab the user's attention, use an alert!
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.alert({
+    title: "MaterializeModal Alert!",
+    message: "How alarming."
+  });
+  {{/prism}}
+  <button id="example-alert" type="button" class="waves-effect waves-light btn-large">Show me an Alert!</button>
+</template>
+
+<template name="error">
+  <p>
+    When something goes wrong, you can display an error modal.
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.error({
+    title: "MaterializeModal Error",
+    label: "Label your Error!",
+    message: "Describe your error!"
+  });
+  {{/prism}}
+  <button id="example-error" type="button" class="waves-effect waves-light btn-large">Show me an Error!</button>
+</template>
+
+<template name="confirm">
+  <p>
+    To get the user's decision on a simple yes-or-no question, deploy a Materialize confirm dialog.  For more information about the nature of callbacks, see <a href="#callbacks">the callbacks section</a>.
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.confirm({
+    title: "MaterializeModal Confirm",
+    label: "Label your Confirm!",
+    message: "Yes, or no?",
+    callback: function(error, response) {
+      if (response.submit) {
+        Materialize.toast("Yes!", 5000, "green");
+      } else {
+        Materialize.toast("No!", 5000, "red");
+      }
+    }
+  });
+  {{/prism}}
+  <button id="example-confirm" type="button" class="waves-effect waves-light btn-large">Confirmative</button>
+</template>
+
+<template name="prompt">
+  <p>
+    To get some brief text input from the user, you can use a Materialize prompt.  For more information about the nature of callbacks, see <a href="#callbacks">the callbacks section</a>.
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+  MaterializeModal.confirm({
+    title: "MaterializeModal Confirm",
+    label: "Label your Confirm!",
+    message: "Yes, or no?",
+    callback: function(error, response) {
+      if (response.submit) {
+        Materialize.toast("Yes!", 5000, "green");
+      } else {
+        Materialize.toast("No!", 5000, "red");
+      }
+    }
+  });
+  {{/prism}}
+  <button id="example-prompt" type="button" class="waves-effect waves-light btn-large">Show me a Prompt!</button>
+</template>
+
+<template name="form">
+  <p>
+    If you want to get more data than a prompt provides, just pass a template of inputs into the <code class="language-javascript">bodyTemplate</code> property.
+  </p>
+  <button id="example-form" type="button" class="waves-effect waves-light btn-large">Show me a Form!</button>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6">
+          <a href="#form-javascript" class="active">Javascript</a>
+        </li>
+        <li class="tab col s6">
+          <a href="#form-html">HTML</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="form-javascript" class="col s12">
+    {{#prism language="js" class="line-numbers"}}
+    MaterializeModal.form({
+      title: "Enter some Data!",
+      bodyTemplate: "my-form",
+      callback: function(error, response) {
+        if (response.submit) {
+          // Iterate over form results & display.
+          for (var field in response.value) {
+            Materialize.toast(field + ": " + response.value[field], 5000, "green");
+          }
+        } else {
+          Materialize.toast("Cancelled by user!", 5000, "red");
+        }
+      }
+    });
+    {{/prism}}
+  </div>
+  <div id="form-html" class="col s12">
+    {{#prism language="blaze" class="line-numbers"}}
+    &lt;template name=&quot;my-form&quot;&gt;
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;input-field col s6&quot;&gt;
+          &lt;input id=&quot;first_name&quot; type=&quot;text&quot; name=&quot;first-name&quot; class=&quot;validate&quot;&gt;
+          &lt;label for=&quot;first_name&quot;&gt;First Name&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;input-field col s6&quot;&gt;
+          &lt;input id=&quot;last_name&quot; type=&quot;text&quot; name=&quot;last-name&quot; class=&quot;validate&quot;&gt;
+          &lt;label for=&quot;last_name&quot;&gt;Last Name&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;input-field col s12&quot;&gt;
+          &lt;input disabled id=&quot;disabled&quot; type=&quot;text&quot; name=&quot;disabled-input&quot; class=&quot;validate&quot;&gt;
+          &lt;label for=&quot;disabled&quot;&gt;Disabled&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;input-field col s12&quot;&gt;
+          &lt;input id=&quot;password&quot; type=&quot;password&quot; name=&quot;password&quot; class=&quot;validate&quot;&gt;
+          &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;input-field col s12&quot;&gt;
+          &lt;input id=&quot;email&quot; type=&quot;email&quot; name=&quot;email&quot; class=&quot;validate&quot;&gt;
+          &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/template&gt;
+    {{/prism}}
+  </div>
+  <div class="row">
+    <div class="col s1">
+      <i class="material-icons col s1 red-text">info</i>
+    </div>
+    <div class="col s11">
+      For forms to work properly, please note the following:
+      <ul>
+        <li>
+          <blockquote>
+            Your form template <b>must not</b> contain any <code class="language-html">&lt;form&gt;</code> tags!  MaterializeModal will wrap your template in its own form and take care of the submission & traversal logic -- so just pass your inputs please!  See the example above.
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            You <b>must</b> include a valid <code class="language-html">name</code> attribute for any inputs you want to get the value of on form submission.  Again -- checkout out the above HTML.
+          </blockquote>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template name="my-form">
+  <div class="row">
+    <div class="input-field col s6">
+      <input id="first_name" type="text" value={{age}} name="first-name" class="validate">
+      <label for="first_name">First Name</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="last_name" type="text" name="last-name" class="validate">
+      <label for="last_name">Last Name</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input disabled id="disabled" type="text" name="disabled-input" class="validate">
+      <label for="disabled">Disabled</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="password" type="password" name="password" class="validate">
+      <label for="password">Password</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="email" type="email" name="email" class="validate">
+      <label for="email">Email</label>
+    </div>
+  </div>
+</template>
+
+<template name="aboutMe">
+  I am a {{age}}-year-old developer.  I have {{cats.length}} cats:
+  {{#each cats}}
+    One is named {{this}}.
+  {{/each}}
+</template>
+
+<template name="dataContext">
+  <p>
+    What if you want to pass some data into the modal?
+  </p>
+  <p>
+    Good news!  You already are!  The options object which is used to initialize a MaterializeModal <i>is</i> the template's data context!  Here's an example.  (Go ahead!  Try it in the console!)
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+    MaterializeModal.message({
+      bodyTemplate: "aboutMe",
+      title: "About Me",
+      age: 23,
+      cats: ["kip", "fatcat"]
+    });
+  {{/prism}}
+  <p>
+    This will render the template <code class="language-javascript">aboutMe</code> inside a message modal.  Since the initialization options are the modal's data context, our template could access the data simply:
+  </p>
+  {{#prism language="blaze"}}
+  &lt;template name=&quot;aboutMe&quot;&gt;
+    I am a {{|age}}-year-old developer.  I have {{|cats.length}} cats:
+    {{|#each cats}}
+      One is named {{|this}}.
+    {{|/each}}
+  &lt;/template&gt;
+  {{/prism}}
+  <p>
+    It really is that simple!
+  </p>
+</template>
+
+<template name="reactiveDataContext">
+  <p>
+    But what if you have some reactive data that you'd like the modal template to depend on?  Just wrap the MaterializeModal call inside an autorun!
+  </p>
+  <p>
+    Here's the above example -- but this time, let's use some Session vars to store our data context!
+  </p>
+  {{#prism language="js" class="line-numbers"}}
+  Tracker.autorun(function() {
+    MaterializeModal.display({
+      bodyTemplate: "aboutMe",
+      age: Session.get("age"),
+      cats: Session.get("cats")
+    });
+  });
+  {{/prism}}
+  <p>
+    Try it out!  Open the modal using the button below, and then run the following commands in the developer console:
+  </p>
+  {{#prism language="javascript"}}
+    Session.set("age", 12)
+    Session.set("cats", ["fatcat"]);
+  {{/prism}}
+  <button id="reactive-data-context" type="button" class="waves-effect waves-light btn-large">Open the Reactive Modal!</button>
+  <p>
+    Thanks to the dark voodoo magic of Meteor's templating, only the portions of the modal that need to be updated will change, so if your template has inputs they won't be cleared when the autorun is fired.
+  </p>
+  <p>
+    In practice it would be advisable to use <a href="https://atmospherejs.com/meteor/reactive-var">reactive-vars</a> instead of Session variables.
+  </p>
+  <p>
+    Use <code class="language-javascript">Tracker.autorun</code> inside event handlers, but if you're calling a modal from inside a template itself, it's always better to use  <code class="language-javascript">this.autorun</code>.
+  </p>
+</template>

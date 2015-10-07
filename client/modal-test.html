@@ -1,0 +1,208 @@
+<head>
+  <title>modal-test</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="red lighten-1">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">MaterializeModal</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li>
+          <a href="http://github.com/msolters/meteor-materialize-modal">GitHub</a>
+        </li>
+        <li>
+          <a href="https://atmospherejs.com/pfafman/materialize-modal">Atmosphere</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 l10">
+          <!--  Quick Start -->
+          <div id="top" class="section scrollspy">
+            <h1>MaterializeModal</h1>
+            <p class="flow-text">
+              The <a href="http://materializecss.com/">Materialize</a> project already offers some great modal solutions.
+            </p>
+            <p class="flow-text">
+              But if you're using Meteor, it's not convenient or obvious how to get your templates and reactive data contexts into the modal.
+            </p>
+            <p class="flow-text">
+              That's where MaterializeModal comes in.  It allows you to programmatically create and close modals by directly passing in Meteor templates and reactive data sources, making your modals first class citizens of your Meteor app!
+            </p>
+          </div>
+          <div class="section">
+            <h2>Install</h2>
+            {{#prism language="bash"}}
+              meteor add pfafman:materialize-modals
+            {{/prism}}
+          </div>
+          <div class="section">
+            <h2>Usage</h2>
+            {{#prism language="bash"}}
+              MaterializeModal.message({
+                title: "Modal Title",
+                message: "Modal Body"
+              });
+            {{/prism}}
+          </div>
+
+          <!-- Custom Modals  -->
+          <div class="section">
+            <h2>Custom Modals: The Meteor Way!</h2>
+            <p class="flow-text">
+              Most of the time, you want to use Meteor's robust templating and event mapping features -- but you just want the damn thing in a modal!
+            </p>
+          </div>
+          <div id="custom-template" class="section scrollspy">
+            <h4>Custom Template</h4>
+            <p>
+              With MaterializeModal it's easy to have your cake and eat it, too.  Let's say you have a fully functional template ready to go, with all the events and logic self-contained.  To display it as a modal, just pass its name as the <code class="language-javascript">bodyTemplate</code> property in the modal initialization:
+            </p>
+            {{#prism language="javascript" class="line-numbers"}}
+              MaterializeModal.display({
+                bodyTemplate: "myTemplateName"
+              });
+            {{/prism}}
+            <p>
+              <blockquote>
+                This works not just with <code class="language-javascript">MaterializeModal.display()</code>, but all the pre-baked modal methods listed below.  We leverage it, for example, in the <code class="language-javascript">MaterializeModal.form()</code> helper.  Feel free to experiment!
+              </blockquote>
+            </p>
+            <p>
+              Since your template can now reactively take care of the heavy lifting (just like any other Meteor template), you don't need to cram your logic into the modal's callback to handle the user's actions!  So the only question is -- when my template is done doing its thing, how do I close the modal?  Easy!
+            </p>
+            {{#prism language="javascript"}}
+              MaterializeModal.close();
+            {{/prism}}
+            <p>
+              You can call this anywhere to dismiss the current modal.
+            </p>
+          </div>
+          <div id="data-context" class="section scrollspy">
+            <h4>Data Context</h4>
+            {{> dataContext}}
+          </div>
+          <div id="reactive-data-context" class="section scrollspy">
+            <h4>Reactive Data Context</h4>
+            {{> reactiveDataContext}}
+          </div>
+          <div id="callbacks" class="section scrollspy">
+            <h4>Callbacks</h4>
+            {{> callbacks}}
+          </div>
+
+          <!--  Pre-baked Modals  -->
+          <div class="section">
+            <h2>Pre-baked Modals</h2>
+            <p class="flow-text">
+              An assortment of hot-n-ready modals requiring no custom templates.
+            </p>
+          </div>
+          <div id="message" class="section scrollspy">
+            <h4>Message</h4>
+            {{> message}}
+          </div>
+          <div id="alert" class="section scrollspy">
+            <h4>Alert</h4>
+            {{> alert}}
+          </div>
+          <div id="error" class="section scrollspy">
+            <h4>Error</h4>
+            {{> error}}
+          </div>
+          <div id="confirm" class="section scrollspy">
+            <h4>Confirm</h4>
+            {{> confirm}}
+          </div>
+          <div id="prompt" class="section scrollspy">
+            <h4>Prompt</h4>
+            {{> prompt}}
+          </div>
+          <div id="form" class="section scrollspy">
+            <h4>Form</h4>
+            {{> form}}
+          </div>
+        </div>
+        <div class="col hide-on-small-only m3 l2">
+          {{> toc }}
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+<template name="reactiveModal">
+  <p>
+    This is our modal's <code class="language-javascript">bodyTemplate</code>.  It can access the same data context as whatever arguments are passed into MaterializeModal.
+  </p>
+  <p>
+    By passing reactive variables to MaterializeModal, they can be easily accessed inside your modal content helpers, as well as updated elsewhere in your code.
+  </p>
+  <p>
+    In this example, we passed in a reactive-var named <code class="language-javascript">window.exampleMessage</code>.  Try setting its value to change the data context in this modal!  Open up the dev console and type:
+  </p>
+  {{#prism language="javascript"}}
+    window.exampleMessage.set("Reactive data constructs are immaterial.");
+  {{/prism}}
+  <p>
+    The value of <code class="language-javascript">window.exampleMessage</code> is:
+  </p>
+  <blockquote>
+     <!-- Note: We are just using a simple Template helper here.  -->
+     <code>{{exampleMessage}}</code>
+  </blockquote>
+  <p>
+    Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
+  </p>
+</template>
+
+<template name="callbacks">
+  <p>
+    MaterializeModal callbacks pass two arguments, error and response.
+  </p>
+  {{#prism language="javascript"}}
+    MaterializeModal.display({
+      submitLabel: "Submit",
+      closeLabel: "Cancel",
+      callback: function(error, response) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(response);
+        }
+      }
+    });
+  {{/prism}}
+  <p>
+    <code class="language-javascript">error</code> is usually null, unless there was an error in the modal's closing logic.
+  </p>
+  <p>
+    <code class="language-javascript">response</code> is an object with two parameters, and is only returned if there was no error.
+  </p>
+  {{#prism language="javascript"}}
+    response = {
+      submit: [true|false],
+      value: [String|object]
+    }
+  {{/prism}}
+  <p>
+    <ul>
+      <li>
+        <blockquote>
+          <code class="language-javascript">submit</code> will be true if the user clicked the modal's submit button, hit enter, or otherwise submitted a form or input.  Otherwise, it will be false.  This is a great, uniform approach to determining <i>how</i> a user dealt with the modal.
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <code class="language-javascript">value</code> will be a string containing the text the user entered in the case of a <a href="#prompt">prompt</a>.  In the case of a <a href="#form">form</a>, it will be a dictionary with input names as keys, and their content as values.  In all other cases, it will be null.  It's really only useful for the pre-baked modals (see below!)
+        </blockquote>
+      </li>
+    </ul>
+  </p>
+</template>
