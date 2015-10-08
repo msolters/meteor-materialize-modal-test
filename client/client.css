@@ -1,6 +1,9 @@
 html {
   font-size: 16px;
 }
+body {
+  padding-bottom: 190px;
+}
 h1 {
   word-break: break-all;
 }

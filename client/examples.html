@@ -416,7 +416,25 @@
 </template>
 
 <template name="buttons">
-
+  <p>
+    You can disable change the appearance of the Cancel and Submit buttons by using the <code class="language-javascript">submitLabel</code> and <code class="language-javascript">closeLabel</code> properties.
+  </p>
+  <p>
+    To remove one or both buttons completely, just set its label to null.
+  </p>
+  {{#prism language="javascript"}}
+  MaterializeModal.confirm({
+    message: "Here's an example with custom HTML content!",
+    closeLabel: '<i class="material-icons left red-text">exit_to_app</i> No',
+    submitLabel: '<i class="material-icons left green-text">done</i> Yes'
+  });
+  {{/prism}}
+  <p>
+    <button id="example-buttons" type="button" class="waves-effect waves-light btn-large">Show me Custom Buttons!</button>
+  </p>
+  <p>
+    This works well for modals with long content that will probably have to scroll, or for fullscreen modals.
+  </p>
 </template>
 
 <template name="fixedFooter">
@@ -437,8 +455,37 @@
   </p>
 </template>
 
-<template name="customFooter">
+<template name="myFooter">
+  <div class="modal-footer">
+    <button id="submitButton" type="submit" class="waves-effect waves-light btn green" style="margin: 5px;">Submit Button</button>
+    <button id="closeButton" class="waves-effect waves-light btn red lighten-1" style="margin: 5px;">Cancel Button</button>
+  </div>
+</template>
 
+<template name="customFooter">
+  <p>
+    To completely replace the modal footer with your own template, just pass the name to the <code class="language-javascript">footerTemplate</code> property.
+  </p>
+  {{#prism language="blaze"}}
+  &lt;template name=&quot;myFooter&quot;&gt;
+    &lt;div class=&quot;modal-footer&quot;&gt;
+      &lt;button id=&quot;submitButton&quot; type=&quot;submit&quot; class=&quot;waves-effect waves-light btn green&quot; style=&quot;margin: 5px;&quot;&gt;Submit Button&lt;/button&gt;
+      &lt;button id=&quot;closeButton&quot; class=&quot;waves-effect waves-light btn red lighten-1&quot; style=&quot;margin: 5px;&quot;&gt;Cancel Button&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+  {{/prism}}
+  {{#prism language="javascript"}}
+  MaterializeModal.message({
+    message: "Here's a simple modal with a custom footer!",
+    footerTemplate: "myFooter"
+  });
+  {{/prism}}
+  <p>
+    <button id="example-custom-footer" type="button" class="waves-effect waves-light btn-large">Show me a Custom Footer!</button>
+  </p>
+  <p>
+    Note that the footer will <i>not</i> inherit the data context the <a href="#data-context">rest of the modal does</a>.  To set a (reactive) data context for your footer template, you can pass a dictionary into the <code class="language-javascript">footerTemplateData</code> property.
+  </p>
 </template>
 
 <template name="fullscreen">
@@ -460,7 +507,19 @@
 </template>
 
 <template name="bottomsheet">
-
+  <p>
+    The bottom sheet is a way to bring relatively detailed information to a user's attention by having the modal slide in from the bottom of the page.
+  </p>
+  {{#prism language="javascript"}}
+  MaterializeModal.progress({
+    progress: 0.76,
+    message: "For example, the bottomsheet can be a useful way to indicate that the page is waiting on information to load!",
+    bottomSheet: true
+  });
+  {{/prism}}
+  <p>
+    <button id="example-bottomsheet" type="button" class="waves-effect waves-light btn-large">Show me a Bottomsheet Modal!</button>
+  </p>
 </template>
 
 <template name="loremIpsum">

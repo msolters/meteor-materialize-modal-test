@@ -120,6 +120,16 @@ Template.reactiveDataContext.events({
   }
 });
 
+Template.buttons.events({
+  "click button#example-buttons": function(e, tmpl) {
+    MaterializeModal.confirm({
+      message: "Here's an example with custom HTML content!",
+      closeLabel: '<i class="material-icons left red-text">exit_to_app</i> No',
+      submitLabel: '<i class="material-icons left green-text">done</i> Yes'
+    });
+  }
+});
+
 Template.fixedFooter.events({
   "click button#example-fixed-footer": function(e, tmpl) {
     MaterializeModal.confirm({
@@ -129,12 +139,30 @@ Template.fixedFooter.events({
   }
 });
 
+Template.customFooter.events({
+  "click button#example-custom-footer": function(e, tmpl) {
+    MaterializeModal.message({
+      message: "Here's a simple modal with a custom footer!",
+      footerTemplate: "myFooter"
+    });
+  }
+});
 
 Template.fullscreen.events({
   "click button#example-fullscreen": function(e, tmpl) {
     MaterializeModal.message({
       message: "This is a fullscreen modal.",
       fullscreen: true
+    });
+  }
+});
+
+Template.bottomsheet.events({
+  "click button#example-bottomsheet": function(e, tmpl) {
+    MaterializeModal.progress({
+      progress: 0.76,
+      message: "For example, the bottomsheet can be a useful way to indicate that the page is waiting on information to load!",
+      bottomSheet: true
     });
   }
 });
