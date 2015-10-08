@@ -129,15 +129,14 @@
     To get some brief text input from the user, you can use a Materialize prompt.  For more information about the nature of callbacks, see <a href="#callbacks">the callbacks section</a>.
   </p>
   {{#prism language="javascript" class="line-numbers"}}
-  MaterializeModal.confirm({
-    title: "MaterializeModal Confirm",
-    label: "Label your Confirm!",
-    message: "Yes, or no?",
+  MaterializeModal.prompt({
+    title: "MaterializeModal Prompt",
+    message: "Hi!  Enter some text.",
     callback: function(error, response) {
       if (response.submit) {
-        Materialize.toast("Yes!", 5000, "green");
+        Materialize.toast("User entered: "+response.value, 5000, "green");
       } else {
-        Materialize.toast("No!", 5000, "red");
+        Materialize.toast("Cancelled by user!", 5000, "red");
       }
     }
   });
