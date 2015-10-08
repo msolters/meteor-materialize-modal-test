@@ -9,7 +9,9 @@
     message: "Put your message content here!"
   });
   {{/prism}}
-  <button id="example-message" type="button" class="waves-effect waves-light btn-large">Show me a Message!</button>
+  <p class="example-trigger center">
+    <button id="example-message" type="button" class="waves-effect waves-light btn-large blue">Show me a Message!</button>
+  </p>
 </template>
 
 <template name="alert">
@@ -22,7 +24,9 @@
     message: "How alarming."
   });
   {{/prism}}
-  <button id="example-alert" type="button" class="waves-effect waves-light btn-large">Show me an Alert!</button>
+  <p class="example-trigger center">
+    <button id="example-alert" type="button" class="waves-effect waves-light btn-large blue">Show me an Alert!</button>
+  </p>
 </template>
 
 <template name="error">
@@ -36,7 +40,9 @@
     message: "Describe your error!"
   });
   {{/prism}}
-  <button id="example-error" type="button" class="waves-effect waves-light btn-large">Show me an Error!</button>
+  <p class="example-trigger center">
+    <button id="example-error" type="button" class="waves-effect waves-light btn-large blue">Show me an Error!</button>
+  </p>
 </template>
 
 <template name="loading">
@@ -46,8 +52,8 @@
   {{#prism language="javascript" class="line-numbers"}}
   MaterializeModal.loading();
   {{/prism}}
-  <p>
-    <button id="example-loading" type="button" class="waves-effect waves-light btn-large">Show me the Loader!</button>
+  <p class="example-trigger center">
+    <button id="example-loading" type="button" class="waves-effect waves-light btn-large blue">Show me the Loader!</button>
   </p>
 </template>
 
@@ -98,8 +104,8 @@
   }
   nextStep();
   {{/prism}}
-  <p>
-    <button id="example-progress" type="button" class="waves-effect waves-light btn-large">Show me the Progress!</button>
+  <p class="example-trigger center">
+    <button id="example-progress" type="button" class="waves-effect waves-light btn-large blue">Show me the Progress!</button>
   </p>
 </template>
 
@@ -121,7 +127,9 @@
     }
   });
   {{/prism}}
-  <button id="example-confirm" type="button" class="waves-effect waves-light btn-large">Confirmative</button>
+  <p class="example-trigger center">
+    <button id="example-confirm" type="button" class="waves-effect waves-light btn-large blue">Confirmative</button>
+  </p>
 </template>
 
 <template name="prompt">
@@ -141,7 +149,9 @@
     }
   });
   {{/prism}}
-  <button id="example-prompt" type="button" class="waves-effect waves-light btn-large">Show me a Prompt!</button>
+  <p class="example-trigger center">
+    <button id="example-prompt" type="button" class="waves-effect waves-light btn-large blue">Show me a Prompt!</button>
+  </p>
 </template>
 
 <template name="form">
@@ -212,8 +222,8 @@
     &lt;/template&gt;
     {{/prism}}
   </div>
-  <p>
-    <button id="example-form" type="button" class="waves-effect waves-light btn-large">Show me a Form!</button>
+  <p class="example-trigger center">
+    <button id="example-form" type="button" class="waves-effect waves-light btn-large blue">Show me a Form!</button>
   </p>
   <div class="row">
     <div class="col s1">
@@ -236,7 +246,7 @@
     </div>
   </div>
   <p>
-    Personally, I'd recommend handling all your form logic inside your template, and then just use <code class="language-javascript">MaterializeModal.close()</code> to close the parent modal when you're done handling submission!  Then you'll have much finer-grained control to parse and validate your forms.
+    Personally, I'd recommend handling all your form logic inside a <a href="#custom-template">custom template</a>, which uses <code class="language-javascript">MaterializeModal.close()</code> to dismiss the parent modal when you're done handling form submission!  Then you'll have much finer-grained control to parse and validate your forms.
   </p>
 </template>
 
@@ -294,7 +304,7 @@
     });
   {{/prism}}
   <p>
-    This will render the template <code class="language-javascript">aboutMe</code> inside a message modal.  Since the initialization options are the modal's data context, our template could access the data simply:
+    This will render the template <code class="language-javascript">aboutMe</code> in a modal.  Since the initialization options are the modal's data context, our template could access the data simply:
   </p>
   {{#prism language="blaze"}}
   &lt;template name=&quot;aboutMe&quot;&gt;
@@ -332,7 +342,9 @@
     Session.set("age", 12)
     Session.set("cats", ["fatcat"]);
   {{/prism}}
-  <button id="reactive-data-context" type="button" class="waves-effect waves-light btn-large">Open the Reactive Modal!</button>
+  <p class="example-trigger center">
+    <button id="reactive-data-context" type="button" class="waves-effect waves-light btn-large blue">Open the Reactive Modal!</button>
+  </p>
   <p>
     Thanks to the dark voodoo magic of Meteor's templating, only the portions of the modal that need to be updated will change, so if your template has inputs they won't be cleared when the autorun is fired.
   </p>
@@ -341,32 +353,6 @@
   </p>
   <p>
     Use <code class="language-javascript">Tracker.autorun</code> inside event handlers, but if you're calling a modal from inside a template itself, it's always better to use  <code class="language-javascript">this.autorun</code>.
-  </p>
-</template>
-
-
-<template name="reactiveModal">
-  <p>
-    This is our modal's <code class="language-javascript">bodyTemplate</code>.  It can access the same data context as whatever arguments are passed into MaterializeModal.
-  </p>
-  <p>
-    By passing reactive variables to MaterializeModal, they can be easily accessed inside your modal content helpers, as well as updated elsewhere in your code.
-  </p>
-  <p>
-    In this example, we passed in a reactive-var named <code class="language-javascript">window.exampleMessage</code>.  Try setting its value to change the data context in this modal!  Open up the dev console and type:
-  </p>
-  {{#prism language="javascript"}}
-    window.exampleMessage.set("Reactive data constructs are immaterial.");
-  {{/prism}}
-  <p>
-    The value of <code class="language-javascript">window.exampleMessage</code> is:
-  </p>
-  <blockquote>
-     <!-- Note: We are just using a simple Template helper here.  -->
-     <code>{{exampleMessage}}</code>
-  </blockquote>
-  <p>
-    Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
   </p>
 </template>
 
@@ -429,8 +415,8 @@
     submitLabel: '<i class="material-icons left green-text">done</i> Yes'
   });
   {{/prism}}
-  <p>
-    <button id="example-buttons" type="button" class="waves-effect waves-light btn-large">Show me Custom Buttons!</button>
+  <p class="example-trigger center">
+    <button id="example-buttons" type="button" class="waves-effect waves-light btn-large blue">Show me Custom Buttons!</button>
   </p>
 </template>
 
@@ -444,8 +430,8 @@
     fixedFooter: true
   });
   {{/prism}}
-  <p>
-    <button id="example-fixed-footer" type="button" class="waves-effect waves-light btn-large">Show me a Fixed Footer!</button>
+  <p class="example-trigger center">
+    <button id="example-fixed-footer" type="button" class="waves-effect waves-light btn-large blue">Show me a Fixed Footer!</button>
   </p>
   <p>
     This works well for modals with long content that will probably have to scroll, or for fullscreen modals.
@@ -455,7 +441,7 @@
 <template name="myFooter">
   <div class="modal-footer">
     <button id="submitButton" type="submit" class="waves-effect waves-light btn green" style="margin: 5px;">Submit Button</button>
-    <button id="closeButton" class="waves-effect waves-light btn red lighten-1" style="margin: 5px;">Cancel Button</button>
+    <button id="closeButton" class="waves-effect waves-light btn blue" style="margin: 5px;">Cancel Button</button>
   </div>
 </template>
 
@@ -467,7 +453,7 @@
   &lt;template name=&quot;myFooter&quot;&gt;
     &lt;div class=&quot;modal-footer&quot;&gt;
       &lt;button id=&quot;submitButton&quot; type=&quot;submit&quot; class=&quot;waves-effect waves-light btn green&quot; style=&quot;margin: 5px;&quot;&gt;Submit Button&lt;/button&gt;
-      &lt;button id=&quot;closeButton&quot; class=&quot;waves-effect waves-light btn red lighten-1&quot; style=&quot;margin: 5px;&quot;&gt;Cancel Button&lt;/button&gt;
+      &lt;button id=&quot;closeButton&quot; class=&quot;waves-effect waves-light btn blue&quot; style=&quot;margin: 5px;&quot;&gt;Cancel Button&lt;/button&gt;
     &lt;/div&gt;
   &lt;/template&gt;
   {{/prism}}
@@ -477,8 +463,8 @@
     footerTemplate: "myFooter"
   });
   {{/prism}}
-  <p>
-    <button id="example-custom-footer" type="button" class="waves-effect waves-light btn-large">Show me a Custom Footer!</button>
+  <p class="example-trigger center">
+    <button id="example-custom-footer" type="button" class="waves-effect waves-light btn-large blue">Show me a Custom Footer!</button>
   </p>
   <p>
     Note that the footer will <i>not</i> inherit the data context the <a href="#data-context">rest of the modal does</a>.  To set a (reactive) data context for your footer template, you can pass a dictionary into the <code class="language-javascript">footerTemplateData</code> property.
@@ -495,8 +481,8 @@
     fullscreen: true
   });
   {{/prism}}
-  <p>
-    <button id="example-fullscreen" type="button" class="waves-effect waves-light btn-large">Show me a Fullscreen Modal!</button>
+  <p class="example-trigger center">
+    <button id="example-fullscreen" type="button" class="waves-effect waves-light btn-large blue">Show me a Fullscreen Modal!</button>
   </p>
   <p>
     Full screen modals look best when used together with a <a href="#fixed-footer">fixed footer</a>.
@@ -514,8 +500,8 @@
     bottomSheet: true
   });
   {{/prism}}
-  <p>
-    <button id="example-bottomsheet" type="button" class="waves-effect waves-light btn-large">Show me a Bottomsheet Modal!</button>
+  <p class="example-trigger center">
+    <button id="example-bottomsheet" type="button" class="waves-effect waves-light btn-large blue">Show me a Bottomsheet Modal!</button>
   </p>
 </template>
 
