@@ -1,0 +1,186 @@
+<head>
+  <title>modal-test</title>
+  <meta name="theme-color" content="#EF5350">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <ul id="source-dropdown" class="dropdown-content">
+    <li>
+      <a href="http://github.com/msolters/meteor-materialize-modal">MaterializeModal</a>
+    </li>
+    <li>
+      <a href="http://github.com/msolters/meteor-materialize-modal-test">This Page!</a>
+    </li>
+  </ul>
+  <div class="navbar-fixed">
+    <nav class="red lighten-1">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo hide-on-med-and-down">MaterializeModal</a>
+        <ul id="nav-mobile" class="right">
+          <li>
+            <a href="https://atmospherejs.com/pfafman/materialize-modal">Atmosphere</a>
+          </li>
+          <li>
+            <a class="dropdown-button" href="#!" data-activates="source-dropdown" data-beloworigin="true">Get the Code!<i class="material-icons right">code</i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m9 l10">
+          <!--  Quick Start -->
+          <div id="top" class="section scrollspy">
+            <h1>MaterializeModal</h1>
+            <p class="flow-text">
+              The <a href="http://materializecss.com/">Materialize</a> project already offers some great modal solutions.
+            </p>
+            <p class="flow-text">
+              But if you're using Meteor, it's not convenient or obvious how to get your templates and reactive data contexts into the modal.
+            </p>
+            <p class="flow-text">
+              That's where MaterializeModal comes in.  It allows you to programmatically create and close modals by directly passing in Meteor templates and reactive data sources, making your modals first class citizens of your Meteor app!
+            </p>
+          </div>
+          <div class="section">
+            <h2>Install</h2>
+            {{#prism language="bash"}}
+              meteor add pfafman:materialize-modals
+            {{/prism}}
+          </div>
+          <div class="section">
+            <h2>Usage</h2>
+            {{#prism language="bash"}}
+              MaterializeModal.message({
+                title: "Modal Title",
+                message: "Modal Body"
+              });
+            {{/prism}}
+          </div>
+
+          <!-- Custom Modals  -->
+          <div class="section">
+            <h2>Custom Modals: The Meteor Way!</h2>
+            <p class="flow-text">
+              Most of the time, you want to use Meteor's robust templating and event mapping features -- but you just want the damn thing in a modal!
+            </p>
+          </div>
+          <div id="custom-template" class="section scrollspy">
+            <h4>Custom Template</h4>
+            <p>
+              With MaterializeModal it's easy to have your cake and eat it, too.  Let's say you have a fully functional template ready to go, with all the events and logic self-contained.  To display it as a modal, just pass its name as the <code class="language-javascript">bodyTemplate</code> property in the modal initialization:
+            </p>
+            {{#prism language="javascript" class="line-numbers"}}
+              MaterializeModal.display({
+                bodyTemplate: "myTemplateName"
+              });
+            {{/prism}}
+            <p>
+              <blockquote>
+                This works not just with <code class="language-javascript">MaterializeModal.display()</code>, but all the pre-baked modal methods listed below.  We leverage it, for example, in the <code class="language-javascript">MaterializeModal.form()</code> helper.  Feel free to experiment!
+              </blockquote>
+            </p>
+            <p>
+              Since your template can now reactively take care of the heavy lifting (just like any other Meteor template), you don't need to cram your logic into the modal's callback to handle the user's actions!  So the only question is -- when my template is done doing its thing, how do I close the modal?  Easy!
+            </p>
+            {{#prism language="javascript"}}
+              MaterializeModal.close();
+            {{/prism}}
+            <p>
+              You can call this anywhere to dismiss the current modal.
+            </p>
+          </div>
+          <div id="data-context" class="section scrollspy">
+            <h4>Data Context</h4>
+            {{> dataContext}}
+          </div>
+          <div id="reactive-data-context" class="section scrollspy">
+            <h4>Reactive Data Context</h4>
+            {{> reactiveDataContext}}
+          </div>
+          <div id="callbacks" class="section scrollspy">
+            <h4>Callbacks</h4>
+            {{> callbacks}}
+          </div>
+
+          <!--  Pre-baked Modals  -->
+          <div class="section">
+            <h2>Pre-baked Modals</h2>
+            <p class="flow-text">
+              An assortment of hot-n-ready modals requiring no custom templates.
+            </p>
+          </div>
+          <div id="message" class="section scrollspy">
+            <h4>Message</h4>
+            {{> message}}
+          </div>
+          <div id="alert" class="section scrollspy">
+            <h4>Alert</h4>
+            {{> alert}}
+          </div>
+          <div id="error" class="section scrollspy">
+            <h4>Error</h4>
+            {{> error}}
+          </div>
+          <div id="loading" class="section scrollspy">
+            <h4>Loading</h4>
+            {{> loading}}
+          </div>
+          <div id="progress" class="section scrollspy">
+            <h4>Progress</h4>
+            {{> progress}}
+          </div>
+          <div id="confirm" class="section scrollspy">
+            <h4>Confirm</h4>
+            {{> confirm}}
+          </div>
+          <div id="prompt" class="section scrollspy">
+            <h4>Prompt</h4>
+            {{> prompt}}
+          </div>
+          <div id="form" class="section scrollspy">
+            <h4>Form</h4>
+            {{> form}}
+          </div>
+
+          <!--  More Options  -->
+          <div class="section">
+            <h2>Configure</h2>
+            <p class="flow-text">
+              More options to configure modal appearance and behaviour.
+            </p>
+          </div>
+          <div id="buttons" class="section scrollspy">
+            <h4>Configure Button Appearance</h4>
+            {{> buttons}}
+          </div>
+          <div id="fixed-footer" class="section scrollspy">
+            <h4>Fixed Footer</h4>
+            {{> fixedFooter}}
+          </div>
+          <div id="custom-footer" class="section scrollspy">
+            <h4>Custom Footer Template</h4>
+            {{> customFooter}}
+          </div>
+          <div id="fullscreen" class="section scrollspy">
+            <h4>Full Screen</h4>
+            {{> fullscreen}}
+          </div>
+          <div id="bottom-sheet" class="section scrollspy">
+            <h4>Bottom Sheet</h4>
+            {{> bottomsheet}}
+          </div>
+        </div>
+
+        <div class="col hide-on-small-only m3 l2">
+          {{> toc }}
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
