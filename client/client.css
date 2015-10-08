@@ -16,6 +16,10 @@ h1 {
 .dropdown-button > i {
   line-height: inherit;
 }
+.lean-overlay {
+  top: 0 !important;
+  bottom: inherit !important;
+}
 @media only screen and (min-width: 601px) {
   a.brand-logo {
     padding-left: 15px;

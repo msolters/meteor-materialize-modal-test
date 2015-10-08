@@ -408,6 +408,9 @@
   <p>
     To remove one or both buttons completely, just set its label to null.
   </p>
+  <p>
+    If you want to replace the classes, number of buttons, placement, etc. then it sounds like you probably want to just add your own footer template!  <a href="#custom-footer">It's very easy</a>.
+  </p>
   {{#prism language="javascript"}}
   MaterializeModal.confirm({
     message: "Here's an example with custom HTML content!",
@@ -465,6 +468,18 @@
   {{/prism}}
   <p class="example-trigger center">
     <button id="example-custom-footer" type="button" class="waves-effect waves-light btn-large blue">Show me a Custom Footer!</button>
+  </p>
+  <p>
+    If you add your own button and want it to act like the default "Submit" button, make sure to include the following attributes:
+    {{#prism language="blaze"}}
+      id="submitButton" type="submit"
+    {{/prism}}
+  </p>
+  <p>
+    To make a custom button be the "Cancel" button, just include:
+    {{#prism language="blaze"}}
+      id="closeButton"
+    {{/prism}}
   </p>
   <p>
     Note that the footer will <i>not</i> inherit the data context the <a href="#data-context">rest of the modal does</a>.  To set a (reactive) data context for your footer template, you can pass a dictionary into the <code class="language-javascript">footerTemplateData</code> property.
