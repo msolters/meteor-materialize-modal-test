@@ -146,7 +146,36 @@
             <h4>Form</h4>
             {{> form}}
           </div>
+
+          <!--  More Options  -->
+          <div class="section">
+            <h2>Configure</h2>
+            <p class="flow-text">
+              More options to configure modal appearance and behaviour.
+            </p>
+          </div>
+          <div id="buttons" class="section scrollspy">
+            <h4>Configure Button Appearance</h4>
+            {{> buttons}}
+          </div>
+          <div id="fixedFooter" class="section scrollspy">
+            <h4>Fixed Footer</h4>
+            {{> fixedFooter}}
+          </div>
+          <div id="custom-footer" class="section scrollspy">
+            <h4>Custom Footer Template</h4>
+            {{> customFooter}}
+          </div>
+          <div id="fullscreen" class="section scrollspy">
+            <h4>Full Screen</h4>
+            {{> fullscreen}}
+          </div>
+          <div id="bottom-sheet" class="section scrollspy">
+            <h4>Bottom Sheet</h4>
+            {{> bottomsheet}}
+          </div>
         </div>
+
         <div class="col hide-on-small-only m3 l2">
           {{> toc }}
         </div>
@@ -154,73 +183,3 @@
     </div>
   </main>
 </body>
-
-<template name="reactiveModal">
-  <p>
-    This is our modal's <code class="language-javascript">bodyTemplate</code>.  It can access the same data context as whatever arguments are passed into MaterializeModal.
-  </p>
-  <p>
-    By passing reactive variables to MaterializeModal, they can be easily accessed inside your modal content helpers, as well as updated elsewhere in your code.
-  </p>
-  <p>
-    In this example, we passed in a reactive-var named <code class="language-javascript">window.exampleMessage</code>.  Try setting its value to change the data context in this modal!  Open up the dev console and type:
-  </p>
-  {{#prism language="javascript"}}
-    window.exampleMessage.set("Reactive data constructs are immaterial.");
-  {{/prism}}
-  <p>
-    The value of <code class="language-javascript">window.exampleMessage</code> is:
-  </p>
-  <blockquote>
-     <!-- Note: We are just using a simple Template helper here.  -->
-     <code>{{exampleMessage}}</code>
-  </blockquote>
-  <p>
-    Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
-  </p>
-</template>
-
-<template name="callbacks">
-  <p>
-    MaterializeModal callbacks pass two arguments, error and response.
-  </p>
-  {{#prism language="javascript"}}
-    MaterializeModal.display({
-      submitLabel: "Submit",
-      closeLabel: "Cancel",
-      callback: function(error, response) {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log(response);
-        }
-      }
-    });
-  {{/prism}}
-  <p>
-    <code class="language-javascript">error</code> is usually null, unless there was an error in the modal's closing logic.
-  </p>
-  <p>
-    <code class="language-javascript">response</code> is an object with two parameters, and is only returned if there was no error.
-  </p>
-  {{#prism language="javascript"}}
-    response = {
-      submit: [true|false],
-      value: [String|object]
-    }
-  {{/prism}}
-  <p>
-    <ul>
-      <li>
-        <blockquote>
-          <code class="language-javascript">submit</code> will be true if the user clicked the modal's submit button, hit enter, or otherwise submitted a form or input.  Otherwise, it will be false.  This is a great, uniform approach to determining <i>how</i> a user dealt with the modal.
-        </blockquote>
-      </li>
-      <li>
-        <blockquote>
-          <code class="language-javascript">value</code> will be a string containing the text the user entered in the case of a <a href="#prompt">prompt</a>.  In the case of a <a href="#form">form</a>, it will be a dictionary with input names as keys, and their content as values.  In all other cases, it will be null.  It's really only useful for the pre-baked modals (see below!)
-        </blockquote>
-      </li>
-    </ul>
-  </p>
-</template>

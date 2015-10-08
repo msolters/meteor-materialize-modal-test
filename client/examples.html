@@ -343,3 +343,140 @@
     Use <code class="language-javascript">Tracker.autorun</code> inside event handlers, but if you're calling a modal from inside a template itself, it's always better to use  <code class="language-javascript">this.autorun</code>.
   </p>
 </template>
+
+
+<template name="reactiveModal">
+  <p>
+    This is our modal's <code class="language-javascript">bodyTemplate</code>.  It can access the same data context as whatever arguments are passed into MaterializeModal.
+  </p>
+  <p>
+    By passing reactive variables to MaterializeModal, they can be easily accessed inside your modal content helpers, as well as updated elsewhere in your code.
+  </p>
+  <p>
+    In this example, we passed in a reactive-var named <code class="language-javascript">window.exampleMessage</code>.  Try setting its value to change the data context in this modal!  Open up the dev console and type:
+  </p>
+  {{#prism language="javascript"}}
+    window.exampleMessage.set("Reactive data constructs are immaterial.");
+  {{/prism}}
+  <p>
+    The value of <code class="language-javascript">window.exampleMessage</code> is:
+  </p>
+  <blockquote>
+     <!-- Note: We are just using a simple Template helper here.  -->
+     <code>{{exampleMessage}}</code>
+  </blockquote>
+  <p>
+    Close this window to see the source of this web page, or check out <a href="http://github.com/msolters/meteor-materialize-modal-test">the repo here</a>.
+  </p>
+</template>
+
+<template name="callbacks">
+  <p>
+    MaterializeModal callbacks pass two arguments, error and response.
+  </p>
+  {{#prism language="javascript"}}
+    MaterializeModal.display({
+      submitLabel: "Submit",
+      closeLabel: "Cancel",
+      callback: function(error, response) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(response);
+        }
+      }
+    });
+  {{/prism}}
+  <p>
+    <code class="language-javascript">error</code> is usually null, unless there was an error in the modal's closing logic.
+  </p>
+  <p>
+    <code class="language-javascript">response</code> is an object with two parameters, and is only returned if there was no error.
+  </p>
+  {{#prism language="javascript"}}
+    response = {
+      submit: [true|false],
+      value: [String|object]
+    }
+  {{/prism}}
+  <p>
+    <ul>
+      <li>
+        <blockquote>
+          <code class="language-javascript">submit</code> will be true if the user clicked the modal's submit button, hit enter, or otherwise submitted a form or input.  Otherwise, it will be false.  This is a great, uniform approach to determining <i>how</i> a user dealt with the modal.
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <code class="language-javascript">value</code> will be a string containing the text the user entered in the case of a <a href="#prompt">prompt</a>.  In the case of a <a href="#form">form</a>, it will be a dictionary with input names as keys, and their content as values.  In all other cases, it will be null.  It's really only useful for the pre-baked modals (see below!)
+        </blockquote>
+      </li>
+    </ul>
+  </p>
+</template>
+
+<template name="buttons">
+
+</template>
+
+<template name="fixedFooter">
+  <p>
+    You can keep the footer fixed to the bottom of the modal, no matter the size, using fixedFooter.
+  </p>
+  {{#prism language="javascript"}}
+  MaterializeModal.confirm({
+    bodyTemplate: "loremIpsum",
+    fixedFooter: true
+  });
+  {{/prism}}
+  <p>
+    <button id="example-fixed-footer" type="button" class="waves-effect waves-light btn-large">Show me a Fixed Footer!</button>
+  </p>
+  <p>
+    This works well for modals with long content that will probably have to scroll, or for fullscreen modals.
+  </p>
+</template>
+
+<template name="customFooter">
+
+</template>
+
+<template name="fullscreen">
+  <p>
+    To make a modal fullscreen, simply add <code class="language-javascript">fullscreen: true</code> when initializing:
+  </p>
+  {{#prism language="javascript"}}
+  MaterializeModal.message({
+    message: "This is a fullscreen modal.",
+    fullscreen: true
+  });
+  {{/prism}}
+  <p>
+    <button id="example-fullscreen" type="button" class="waves-effect waves-light btn-large">Show me a Fullscreen Modal!</button>
+  </p>
+  <p>
+    Full screen modals look best when used together with a <a href="#fixed-footer">fixed footer</a>.
+  </p>
+</template>
+
+<template name="bottomsheet">
+
+</template>
+
+<template name="loremIpsum">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque suscipit at odio vitae efficitur. Suspendisse sodales, sapien sed ullamcorper tincidunt, erat nisi imperdiet massa, eu viverra massa urna feugiat eros. Suspendisse eu nibh efficitur, tristique nibh vehicula, molestie lorem. Aliquam interdum rhoncus urna in dictum. Sed ut metus in sem accumsan tempor. Integer sit amet sodales lorem, at suscipit justo. Pellentesque vel mattis arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sit amet felis vulputate, condimentum purus nec, posuere augue. Maecenas leo velit, eleifend a libero vel, imperdiet faucibus libero. Suspendisse sed suscipit erat, id tincidunt ex. Praesent lobortis egestas congue. Curabitur ut tellus turpis. Nulla convallis augue libero, ac finibus leo porttitor ac.
+  </p>
+  <p>
+    Cras dictum feugiat velit nec rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur pretium tempor neque, sed imperdiet augue luctus vel. Sed eleifend erat in eros ultricies, in placerat ipsum auctor. Vestibulum sit amet purus consequat, porttitor neque luctus, dapibus elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at purus mauris. Donec massa lectus, consequat id turpis at, rhoncus condimentum purus. Aliquam hendrerit nisi sit amet arcu ullamcorper facilisis. Praesent mi sapien, tincidunt vitae pellentesque sed, accumsan quis tellus. Sed porta bibendum posuere.
+  </p>
+  <p>
+    Cras id eros a erat finibus dapibus. Mauris vel dui at justo vestibulum lobortis ac ac dui. Quisque facilisis ornare eros, vitae ultricies risus rhoncus porttitor. Vivamus tempus erat non volutpat aliquam. Nullam eu mi rutrum, vestibulum dui nec, vestibulum nulla. Integer faucibus in nunc quis scelerisque. Vivamus urna arcu, posuere at auctor et, convallis convallis orci. Vestibulum porttitor neque leo, at mattis eros scelerisque ac.
+  </p>
+  <p>
+    Praesent condimentum vitae dui et eleifend. Praesent egestas malesuada dui et tincidunt. Donec gravida arcu leo. Integer efficitur congue viverra. Integer et maximus ipsum. Maecenas vitae pretium nunc. Integer euismod maximus metus eu rutrum. Nullam non pulvinar quam, a accumsan orci. Nam placerat vel felis vel euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin interdum sit amet enim a molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras quis turpis eleifend, iaculis elit in, auctor dui. Integer et magna at lacus cursus scelerisque.
+  </p>
+  <p>
+    Donec posuere luctus quam, non dapibus tellus iaculis bibendum. Vestibulum tincidunt dignissim risus, nec auctor eros bibendum sit amet. In hac habitasse platea dictumst. Sed feugiat eget sem at convallis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vitae sollicitudin elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sit amet turpis eget nulla interdum ultricies vel nec leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+  </p>
+</template>

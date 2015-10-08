@@ -119,3 +119,22 @@ Template.reactiveDataContext.events({
     });
   }
 });
+
+Template.fixedFooter.events({
+  "click button#example-fixed-footer": function(e, tmpl) {
+    MaterializeModal.confirm({
+      bodyTemplate: "loremIpsum",
+      fixedFooter: true
+    });
+  }
+});
+
+
+Template.fullscreen.events({
+  "click button#example-fullscreen": function(e, tmpl) {
+    MaterializeModal.message({
+      message: "This is a fullscreen modal.",
+      fullscreen: true
+    });
+  }
+});
