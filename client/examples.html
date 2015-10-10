@@ -403,13 +403,7 @@
 
 <template name="buttons">
   <p>
-    You can disable change the appearance of the Cancel and Submit buttons by using the <code class="language-javascript">submitLabel</code> and <code class="language-javascript">closeLabel</code> properties.
-  </p>
-  <p>
-    To remove one or both buttons completely, just set its label to null.
-  </p>
-  <p>
-    If you want to replace the classes, number of buttons, placement, etc. then it sounds like you probably want to just add your own footer template!  <a href="#custom-footer">It's very easy</a>.
+    You can change the appearance of the Cancel and Submit buttons by using the <code class="language-javascript">submitLabel</code> and <code class="language-javascript">closeLabel</code> properties.
   </p>
   {{#prism language="javascript"}}
   MaterializeModal.confirm({
@@ -420,6 +414,12 @@
   {{/prism}}
   <p class="example-trigger center">
     <button id="example-buttons" type="button" class="waves-effect waves-light btn-large blue">Show me Custom Buttons!</button>
+  </p>
+  <p>
+    To remove a button completely, just set its label to null.
+  </p>
+  <p>
+    If you want to replace the button classes, number of buttons, placement, click action, etc. -- then it sounds like you probably want to just add <a href="#custom-footer">your own footer template!</a>.
   </p>
 </template>
 
