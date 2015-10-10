@@ -48,7 +48,7 @@ mongo-id@1.0.1
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
-pfafman:materialize-modal@0.4.0
+pfafman:materialize-modal@1.0.0
 promise@0.5.0
 random@1.0.4
 reactive-dict@1.1.2
