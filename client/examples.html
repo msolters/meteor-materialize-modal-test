@@ -481,8 +481,100 @@
       id="closeButton"
     {{/prism}}
   </p>
+</template>
+
+<template name="myTmpl">
   <p>
-    Note that the footer will <i>not</i> inherit the data context the <a href="#data-context">rest of the modal does</a>.  To set a (reactive) data context for your footer template, you can pass a dictionary into the <code class="language-javascript">footerTemplateData</code> property.
+    The footer button below will check what you have typed in the text input.  To close the modal, type:
+    <blockquote>
+      close the modal
+    </blockquote>
+  </p>
+  <form>
+    <input id="myInput" type="text" placeholder="Enter some text..."/>
+  </form>
+</template>
+
+<template name="myFtr">
+  <div class="modal-footer">
+    <button data-custom-action class="waves-effect waves-light btn purple" style="margin: 5px;">Custom Submission</button>
+  </div>
+</template>
+
+<template name="customExample">
+  <p class="flow-text">
+    You <b>don't</b> have to limit yourself to the built-in submit and cancel buttons, and you <b>don't</b> have to handle modal logic in the callback.  They are provided purely for your convenience.
+  </p>
+  <p class="flow-text">
+    For full control, you can define a Meteor template just like any other, and handle <i>all</i> your modal logic in its event map!
+  </p>
+  <p>
+    Here's a complete example where we have moved all modal logic into the <code class="language-javascript">bodyTemplate</code> -- the Meteor way!!  In addition, we are using our own modal buttons by setting the <a href="#custom-footer">footerTemplate</a> property.
+  </p>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6">
+          <a href="#example-javascript" class="active">Javascript</a>
+        </li>
+        <li class="tab col s6">
+          <a href="#example-html">HTML</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="example-javascript">
+    {{#prism language="javascript" class="line-numbers"}}
+    // Write modal template logic, just like any other
+    //  template in your Meteor app!
+    // Note: Our events can depend on buttons from the
+    //  footerTemplate, without any extra work.
+    Template.myTmpl.events({
+      "click button[data-custom-action], submit form": function(e, tmpl) {
+        //  (1) Grab the user's input
+        var result = tmpl.find("input#myInput").value;
+        //  (2) Do some custom logic!
+        if (result === "close the modal") {
+          Materialize.toast("That's the ticket!  Closing the modal.", 5000, "green");
+          MaterializeModal.close();
+        } else {
+          Materialize.toast("Sorry, that's not the right command.", 5000, "red");
+        }
+        return false;
+      }
+    });
+
+    //  Since myTmpl has all its events self-contained,
+    //  we simply ask MaterializeModal to display the templates.
+    MaterializeModal.display({
+      bodyTemplate: "myTmpl",
+      footerTemplate: "myFtr"
+    });
+    {{/prism}}
+  </div>
+  <div id="example-html">
+    {{#prism language="blaze"}}
+    &lt;template name=&quot;myTmpl&quot;&gt;
+      &lt;p&gt;
+        The footer button below will check what you have typed in the text input.  To close the modal, type:
+        &lt;blockquote&gt;
+          close the modal
+        &lt;/blockquote&gt;
+      &lt;/p&gt;
+      &lt;form&gt;
+        &lt;input id=&quot;myInput&quot; type=&quot;text&quot; placeholder=&quot;Enter some text...&quot;/&gt;
+      &lt;/form&gt;
+    &lt;/template&gt;
+
+    &lt;template name=&quot;myFtr&quot;&gt;
+      &lt;div class=&quot;modal-footer&quot;&gt;
+        &lt;button data-custom-action class=&quot;waves-effect waves-light btn purple&quot; style=&quot;margin: 5px;&quot;&gt;Custom Submission&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/template&gt;
+    {{/prism}}
+  </div>
+  <p class="example-trigger center">
+    <button id="example-custom-footer-events" type="button" class="waves-effect waves-light btn-large blue">Show me some Custom Modal Logic!</button>
   </p>
 </template>
 
