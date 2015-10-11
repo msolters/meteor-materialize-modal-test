@@ -1,4 +1,214 @@
 
+<template name="aboutMe">
+  {{#materializeModalBody}}
+    I am a {{age}}-year-old developer.  I have {{cats.length}} cats:
+    {{#each cats}}
+      One is named {{this}}.
+    {{/each}}
+  {{/materializeModalBody}}
+</template>
+
+<template name="dataContext">
+  <p>
+    What if you want to pass some data into the modal?
+  </p>
+  <p>
+    Good news!  You already are!  The options object which is used to initialize a MaterializeModal <i>is</i> the template's data context!  Here's an example.  (Go ahead!  Try it in the console!)
+  </p>
+  {{#prism language="javascript" class="line-numbers"}}
+    MaterializeModal.display({
+      bodyTemplate: "aboutMe",
+      title: "About Me",
+      age: 23,
+      cats: ["kip", "fatcat"]
+    });
+  {{/prism}}
+  <p>
+    This will render the template <code class="language-javascript">aboutMe</code> in a modal.  Since the initialization options are the modal's data context, our template could access the data simply:
+  </p>
+  {{#prism language="blaze"}}
+  &lt;template name=&quot;aboutMe&quot;&gt;
+    {{|#materializeModalBody}}
+      I am a {{|age}}-year-old developer.  I have {{|cats.length}} cats:
+      {{|#each cats}}
+        One is named {{|this}}.
+      {{|/each}}
+    {{|/materializeModalBody}}
+  &lt;/template&gt;
+  {{/prism}}
+  <p>
+    It really is that simple!
+  </p>
+</template>
+
+<template name="reactiveDataContext">
+  <p>
+    But what if you have some reactive data that you'd like the modal template to depend on?  Just wrap the MaterializeModal call inside an autorun!
+  </p>
+  <p>
+    Here's the above example -- but this time, let's use some Session vars to store our data context!
+  </p>
+  {{#prism language="js" class="line-numbers"}}
+  Tracker.autorun(function() {
+    MaterializeModal.display({
+      bodyTemplate: "aboutMe",
+      age: Session.get("age"),
+      cats: Session.get("cats")
+    });
+  });
+  {{/prism}}
+  <p>
+    Try it out!  Open the modal using the button below, and then run the following commands in the developer console:
+  </p>
+  {{#prism language="javascript"}}
+    Session.set("age", 12);
+    Session.set("cats", ["fatcat"]);
+  {{/prism}}
+  <p class="example-trigger center">
+    <button id="reactive-data-context" type="button" class="waves-effect waves-light btn-large blue">Open the Reactive Modal!</button>
+  </p>
+  <p>
+    Thanks to the dark voodoo magic of Meteor's templating, only the portions of the modal that need to be updated will change, so if your template has inputs they won't be cleared when the autorun is fired.
+  </p>
+  <p>
+    In practice it would be advisable to use <a href="https://atmospherejs.com/meteor/reactive-var">reactive-vars</a> instead of Session variables.
+  </p>
+  <p>
+    Use <code class="language-javascript">Tracker.autorun</code> inside event handlers, but if you're calling a modal from inside a template itself, it's always better to use  <code class="language-javascript">this.autorun</code>.
+  </p>
+</template>
+
+<template name="callbacks">
+  <p>
+    MaterializeModal callbacks pass two arguments, error and response.
+  </p>
+  {{#prism language="javascript"}}
+    MaterializeModal.display({
+      submitLabel: "Submit",
+      closeLabel: "Cancel",
+      callback: function(error, response) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(response);
+        }
+      }
+    });
+  {{/prism}}
+  <p>
+    <code class="language-javascript">error</code> is usually null, unless there was an error in the modal's closing logic.
+  </p>
+  <p>
+    <code class="language-javascript">response</code> is an object with two parameters, and is only returned if there was no error.
+  </p>
+  {{#prism language="javascript"}}
+    response = {
+      submit: [true|false],
+      value: [String|object]
+    }
+  {{/prism}}
+  <p>
+    <ul>
+      <li>
+        <blockquote>
+          <code class="language-javascript">submit</code> will be true if the user clicked the modal's submit button, hit enter, or otherwise submitted a form or input.  Otherwise, it will be false.  This is a great, uniform approach to determining <i>how</i> a user dealt with the modal.
+        </blockquote>
+      </li>
+      <li>
+        <blockquote>
+          <code class="language-javascript">value</code> will be a string containing the text the user entered in the case of a <a href="#prompt">prompt</a>.  In the case of a <a href="#form">form</a>, it will be a dictionary with input names as keys, and their content as values.  In all other cases, it will be null.  It's really only useful for the pre-baked modals (see below!)
+        </blockquote>
+      </li>
+    </ul>
+  </p>
+</template>
+
+<template name="customExample">
+  <p class="flow-text">
+    You <b>don't</b> have to limit yourself to the built-in submit and cancel buttons, and you <b>don't</b> have to handle modal logic in the callback.  They are provided purely for your convenience.
+  </p>
+  <p class="flow-text">
+    For full control, you can define a Meteor template just like any other, and handle <i>all</i> your modal logic in its event map!
+  </p>
+  <p>
+    Here's a complete example where we have moved all modal logic into the <code class="language-javascript">bodyTemplate</code> -- the Meteor way!!  In addition, we are using our own modal buttons by setting the <a href="#custom-footer">footerTemplate</a> property.
+  </p>
+  <p>
+    <blockquote>
+      This example is just a modal with a text input and a custom submit button.  If the user enters "close the modal", the modal will be dismissed.  Otherwise, it responds with a toast saying that the command is incorrect.
+    </blockquote>
+  </p>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6">
+          <a href="#example-javascript" class="active">Javascript</a>
+        </li>
+        <li class="tab col s6">
+          <a href="#example-html">HTML</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="example-javascript">
+    {{#prism language="javascript" class="line-numbers"}}
+    // Write modal template logic, just like any other
+    //  template in your Meteor app!
+    // Note: Our events can depend on buttons from the
+    //  footerTemplate, without any extra work.
+    Template.myTmpl.events({
+      "click button[data-custom-action], submit form": function(e, tmpl) {
+        //  (1) Grab the user's input
+        var result = tmpl.find("input#myInput").value;
+        //  (2) Do some custom logic!
+        if (result === "close the modal") {
+          Materialize.toast("That's the ticket!  Closing the modal.", 5000, "green");
+          MaterializeModal.close();
+        } else {
+          Materialize.toast("Sorry, that's not the right command.", 5000, "red");
+        }
+        return false;
+      }
+    });
+
+    //  Since myTmpl has all its events self-contained,
+    //  we simply ask MaterializeModal to display the templates.
+    MaterializeModal.display({
+      bodyTemplate: "myTmpl",
+      footerTemplate: "myFtr"
+    });
+    {{/prism}}
+  </div>
+  <div id="example-html">
+    {{#prism language="blaze"}}
+    &lt;template name=&quot;myTmpl&quot;&gt;
+      {{|#materializeModalBody}}
+        &lt;p&gt;
+          The footer button below will check what you have typed in the text input.  To close the modal, type:
+          &lt;blockquote&gt;
+            close the modal
+          &lt;/blockquote&gt;
+        &lt;/p&gt;
+        &lt;form&gt;
+          &lt;input id=&quot;myInput&quot; type=&quot;text&quot; placeholder=&quot;Enter some text...&quot;/&gt;
+        &lt;/form&gt;
+      {{|/materializeModalBody}}
+    &lt;/template&gt;
+
+    &lt;template name=&quot;myFtr&quot;&gt;
+      &lt;div class=&quot;modal-footer&quot;&gt;
+        &lt;button data-custom-action class=&quot;waves-effect waves-light btn purple&quot; style=&quot;margin: 5px;&quot;&gt;Custom Submission&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/template&gt;
+    {{/prism}}
+  </div>
+  <p class="example-trigger center">
+    <button id="example-custom-footer-events" type="button" class="waves-effect waves-light btn-large blue">Show me some Custom Modal Logic!</button>
+  </p>
+</template>
+
+
+
 <template name="message">
   <p>
     Use this to display a simple dismissable message to the user.
@@ -191,34 +401,36 @@
   <div id="form-html">
     {{#prism language="blaze" class="line-numbers"}}
     &lt;template name=&quot;my-form&quot;&gt;
-      &lt;div class=&quot;row&quot;&gt;
-        &lt;div class=&quot;input-field col s6&quot;&gt;
-          &lt;input id=&quot;first_name&quot; type=&quot;text&quot; name=&quot;first-name&quot; class=&quot;validate&quot;&gt;
-          &lt;label for=&quot;first_name&quot;&gt;First Name&lt;/label&gt;
+      {{|#materializeModalBody}}
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;input-field col s6&quot;&gt;
+            &lt;input id=&quot;first_name&quot; type=&quot;text&quot; name=&quot;first-name&quot; class=&quot;validate&quot;&gt;
+            &lt;label for=&quot;first_name&quot;&gt;First Name&lt;/label&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;input-field col s6&quot;&gt;
+            &lt;input id=&quot;last_name&quot; type=&quot;text&quot; name=&quot;last-name&quot; class=&quot;validate&quot;&gt;
+            &lt;label for=&quot;last_name&quot;&gt;Last Name&lt;/label&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;input-field col s6&quot;&gt;
-          &lt;input id=&quot;last_name&quot; type=&quot;text&quot; name=&quot;last-name&quot; class=&quot;validate&quot;&gt;
-          &lt;label for=&quot;last_name&quot;&gt;Last Name&lt;/label&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;input-field col s12&quot;&gt;
+            &lt;input disabled id=&quot;disabled&quot; type=&quot;text&quot; name=&quot;disabled-input&quot; class=&quot;validate&quot;&gt;
+            &lt;label for=&quot;disabled&quot;&gt;Disabled&lt;/label&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;row&quot;&gt;
-        &lt;div class=&quot;input-field col s12&quot;&gt;
-          &lt;input disabled id=&quot;disabled&quot; type=&quot;text&quot; name=&quot;disabled-input&quot; class=&quot;validate&quot;&gt;
-          &lt;label for=&quot;disabled&quot;&gt;Disabled&lt;/label&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;input-field col s12&quot;&gt;
+            &lt;input id=&quot;password&quot; type=&quot;password&quot; name=&quot;password&quot; class=&quot;validate&quot;&gt;
+            &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;row&quot;&gt;
-        &lt;div class=&quot;input-field col s12&quot;&gt;
-          &lt;input id=&quot;password&quot; type=&quot;password&quot; name=&quot;password&quot; class=&quot;validate&quot;&gt;
-          &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;input-field col s12&quot;&gt;
+            &lt;input id=&quot;email&quot; type=&quot;email&quot; name=&quot;email&quot; class=&quot;validate&quot;&gt;
+            &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;row&quot;&gt;
-        &lt;div class=&quot;input-field col s12&quot;&gt;
-          &lt;input id=&quot;email&quot; type=&quot;email&quot; name=&quot;email&quot; class=&quot;validate&quot;&gt;
-          &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
+      {{|/materializeModalBody}}
     &lt;/template&gt;
     {{/prism}}
   </div>
@@ -251,155 +463,39 @@
 </template>
 
 <template name="my-form">
-  <div class="row">
-    <div class="input-field col s6">
-      <input id="first_name" type="text" value={{age}} name="first-name" class="validate">
-      <label for="first_name">First Name</label>
+  {{#materializeModalBody}}
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="first_name" type="text" value={{age}} name="first-name" class="validate">
+        <label for="first_name">First Name</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="last_name" type="text" name="last-name" class="validate">
+        <label for="last_name">Last Name</label>
+      </div>
     </div>
-    <div class="input-field col s6">
-      <input id="last_name" type="text" name="last-name" class="validate">
-      <label for="last_name">Last Name</label>
+    <div class="row">
+      <div class="input-field col s12">
+        <input disabled id="disabled" type="text" name="disabled-input" class="validate">
+        <label for="disabled">Disabled</label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <input disabled id="disabled" type="text" name="disabled-input" class="validate">
-      <label for="disabled">Disabled</label>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="password" type="password" name="password" class="validate">
+        <label for="password">Password</label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <input id="password" type="password" name="password" class="validate">
-      <label for="password">Password</label>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="email" type="email" name="email" class="validate">
+        <label for="email">Email</label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <input id="email" type="email" name="email" class="validate">
-      <label for="email">Email</label>
-    </div>
-  </div>
+  {{/materializeModalBody}}
 </template>
 
-<template name="aboutMe">
-  I am a {{age}}-year-old developer.  I have {{cats.length}} cats:
-  {{#each cats}}
-    One is named {{this}}.
-  {{/each}}
-</template>
 
-<template name="dataContext">
-  <p>
-    What if you want to pass some data into the modal?
-  </p>
-  <p>
-    Good news!  You already are!  The options object which is used to initialize a MaterializeModal <i>is</i> the template's data context!  Here's an example.  (Go ahead!  Try it in the console!)
-  </p>
-  {{#prism language="javascript" class="line-numbers"}}
-    MaterializeModal.display({
-      bodyTemplate: "aboutMe",
-      title: "About Me",
-      age: 23,
-      cats: ["kip", "fatcat"]
-    });
-  {{/prism}}
-  <p>
-    This will render the template <code class="language-javascript">aboutMe</code> in a modal.  Since the initialization options are the modal's data context, our template could access the data simply:
-  </p>
-  {{#prism language="blaze"}}
-  &lt;template name=&quot;aboutMe&quot;&gt;
-    I am a {{|age}}-year-old developer.  I have {{|cats.length}} cats:
-    {{|#each cats}}
-      One is named {{|this}}.
-    {{|/each}}
-  &lt;/template&gt;
-  {{/prism}}
-  <p>
-    It really is that simple!
-  </p>
-</template>
-
-<template name="reactiveDataContext">
-  <p>
-    But what if you have some reactive data that you'd like the modal template to depend on?  Just wrap the MaterializeModal call inside an autorun!
-  </p>
-  <p>
-    Here's the above example -- but this time, let's use some Session vars to store our data context!
-  </p>
-  {{#prism language="js" class="line-numbers"}}
-  Tracker.autorun(function() {
-    MaterializeModal.display({
-      bodyTemplate: "aboutMe",
-      age: Session.get("age"),
-      cats: Session.get("cats")
-    });
-  });
-  {{/prism}}
-  <p>
-    Try it out!  Open the modal using the button below, and then run the following commands in the developer console:
-  </p>
-  {{#prism language="javascript"}}
-    Session.set("age", 12)
-    Session.set("cats", ["fatcat"]);
-  {{/prism}}
-  <p class="example-trigger center">
-    <button id="reactive-data-context" type="button" class="waves-effect waves-light btn-large blue">Open the Reactive Modal!</button>
-  </p>
-  <p>
-    Thanks to the dark voodoo magic of Meteor's templating, only the portions of the modal that need to be updated will change, so if your template has inputs they won't be cleared when the autorun is fired.
-  </p>
-  <p>
-    In practice it would be advisable to use <a href="https://atmospherejs.com/meteor/reactive-var">reactive-vars</a> instead of Session variables.
-  </p>
-  <p>
-    Use <code class="language-javascript">Tracker.autorun</code> inside event handlers, but if you're calling a modal from inside a template itself, it's always better to use  <code class="language-javascript">this.autorun</code>.
-  </p>
-</template>
-
-<template name="callbacks">
-  <p>
-    MaterializeModal callbacks pass two arguments, error and response.
-  </p>
-  {{#prism language="javascript"}}
-    MaterializeModal.display({
-      submitLabel: "Submit",
-      closeLabel: "Cancel",
-      callback: function(error, response) {
-        if (error) {
-          console.error(error);
-        } else {
-          console.log(response);
-        }
-      }
-    });
-  {{/prism}}
-  <p>
-    <code class="language-javascript">error</code> is usually null, unless there was an error in the modal's closing logic.
-  </p>
-  <p>
-    <code class="language-javascript">response</code> is an object with two parameters, and is only returned if there was no error.
-  </p>
-  {{#prism language="javascript"}}
-    response = {
-      submit: [true|false],
-      value: [String|object]
-    }
-  {{/prism}}
-  <p>
-    <ul>
-      <li>
-        <blockquote>
-          <code class="language-javascript">submit</code> will be true if the user clicked the modal's submit button, hit enter, or otherwise submitted a form or input.  Otherwise, it will be false.  This is a great, uniform approach to determining <i>how</i> a user dealt with the modal.
-        </blockquote>
-      </li>
-      <li>
-        <blockquote>
-          <code class="language-javascript">value</code> will be a string containing the text the user entered in the case of a <a href="#prompt">prompt</a>.  In the case of a <a href="#form">form</a>, it will be a dictionary with input names as keys, and their content as values.  In all other cases, it will be null.  It's really only useful for the pre-baked modals (see below!)
-        </blockquote>
-      </li>
-    </ul>
-  </p>
-</template>
 
 <template name="buttons">
   <p>
@@ -484,103 +580,23 @@
 </template>
 
 <template name="myTmpl">
-  <p>
-    The footer button below will check what you have typed in the text input.  To close the modal, type:
-    <blockquote>
-      close the modal
-    </blockquote>
-  </p>
-  <form>
-    <input id="myInput" type="text" placeholder="Enter some text..."/>
-  </form>
+  {{#materializeModalBody}}
+    <p>
+      The footer button below will check what you have typed in the text input.  To close the modal, type:
+      <blockquote>
+        close the modal
+      </blockquote>
+    </p>
+    <form>
+      <input id="myInput" type="text" placeholder="Enter some text..."/>
+    </form>
+  {{/materializeModalBody}}
 </template>
 
 <template name="myFtr">
   <div class="modal-footer">
     <button data-custom-action class="waves-effect waves-light btn purple" style="margin: 5px;">Custom Submission</button>
   </div>
-</template>
-
-<template name="customExample">
-  <p class="flow-text">
-    You <b>don't</b> have to limit yourself to the built-in submit and cancel buttons, and you <b>don't</b> have to handle modal logic in the callback.  They are provided purely for your convenience.
-  </p>
-  <p class="flow-text">
-    For full control, you can define a Meteor template just like any other, and handle <i>all</i> your modal logic in its event map!
-  </p>
-  <p>
-    Here's a complete example where we have moved all modal logic into the <code class="language-javascript">bodyTemplate</code> -- the Meteor way!!  In addition, we are using our own modal buttons by setting the <a href="#custom-footer">footerTemplate</a> property.
-  </p>
-  <p>
-    <blockquote>
-      This example is just a modal with a text input and a custom submit button.  If the user enters "close the modal", the modal will be dismissed.  Otherwise, it responds with a toast saying that the command is incorrect.
-    </blockquote>
-  </p>
-  <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <li class="tab col s6">
-          <a href="#example-javascript" class="active">Javascript</a>
-        </li>
-        <li class="tab col s6">
-          <a href="#example-html">HTML</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div id="example-javascript">
-    {{#prism language="javascript" class="line-numbers"}}
-    // Write modal template logic, just like any other
-    //  template in your Meteor app!
-    // Note: Our events can depend on buttons from the
-    //  footerTemplate, without any extra work.
-    Template.myTmpl.events({
-      "click button[data-custom-action], submit form": function(e, tmpl) {
-        //  (1) Grab the user's input
-        var result = tmpl.find("input#myInput").value;
-        //  (2) Do some custom logic!
-        if (result === "close the modal") {
-          Materialize.toast("That's the ticket!  Closing the modal.", 5000, "green");
-          MaterializeModal.close();
-        } else {
-          Materialize.toast("Sorry, that's not the right command.", 5000, "red");
-        }
-        return false;
-      }
-    });
-
-    //  Since myTmpl has all its events self-contained,
-    //  we simply ask MaterializeModal to display the templates.
-    MaterializeModal.display({
-      bodyTemplate: "myTmpl",
-      footerTemplate: "myFtr"
-    });
-    {{/prism}}
-  </div>
-  <div id="example-html">
-    {{#prism language="blaze"}}
-    &lt;template name=&quot;myTmpl&quot;&gt;
-      &lt;p&gt;
-        The footer button below will check what you have typed in the text input.  To close the modal, type:
-        &lt;blockquote&gt;
-          close the modal
-        &lt;/blockquote&gt;
-      &lt;/p&gt;
-      &lt;form&gt;
-        &lt;input id=&quot;myInput&quot; type=&quot;text&quot; placeholder=&quot;Enter some text...&quot;/&gt;
-      &lt;/form&gt;
-    &lt;/template&gt;
-
-    &lt;template name=&quot;myFtr&quot;&gt;
-      &lt;div class=&quot;modal-footer&quot;&gt;
-        &lt;button data-custom-action class=&quot;waves-effect waves-light btn purple&quot; style=&quot;margin: 5px;&quot;&gt;Custom Submission&lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/template&gt;
-    {{/prism}}
-  </div>
-  <p class="example-trigger center">
-    <button id="example-custom-footer-events" type="button" class="waves-effect waves-light btn-large blue">Show me some Custom Modal Logic!</button>
-  </p>
 </template>
 
 <template name="fullscreen">
@@ -618,19 +634,21 @@
 </template>
 
 <template name="loremIpsum">
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque suscipit at odio vitae efficitur. Suspendisse sodales, sapien sed ullamcorper tincidunt, erat nisi imperdiet massa, eu viverra massa urna feugiat eros. Suspendisse eu nibh efficitur, tristique nibh vehicula, molestie lorem. Aliquam interdum rhoncus urna in dictum. Sed ut metus in sem accumsan tempor. Integer sit amet sodales lorem, at suscipit justo. Pellentesque vel mattis arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sit amet felis vulputate, condimentum purus nec, posuere augue. Maecenas leo velit, eleifend a libero vel, imperdiet faucibus libero. Suspendisse sed suscipit erat, id tincidunt ex. Praesent lobortis egestas congue. Curabitur ut tellus turpis. Nulla convallis augue libero, ac finibus leo porttitor ac.
-  </p>
-  <p>
-    Cras dictum feugiat velit nec rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur pretium tempor neque, sed imperdiet augue luctus vel. Sed eleifend erat in eros ultricies, in placerat ipsum auctor. Vestibulum sit amet purus consequat, porttitor neque luctus, dapibus elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at purus mauris. Donec massa lectus, consequat id turpis at, rhoncus condimentum purus. Aliquam hendrerit nisi sit amet arcu ullamcorper facilisis. Praesent mi sapien, tincidunt vitae pellentesque sed, accumsan quis tellus. Sed porta bibendum posuere.
-  </p>
-  <p>
-    Cras id eros a erat finibus dapibus. Mauris vel dui at justo vestibulum lobortis ac ac dui. Quisque facilisis ornare eros, vitae ultricies risus rhoncus porttitor. Vivamus tempus erat non volutpat aliquam. Nullam eu mi rutrum, vestibulum dui nec, vestibulum nulla. Integer faucibus in nunc quis scelerisque. Vivamus urna arcu, posuere at auctor et, convallis convallis orci. Vestibulum porttitor neque leo, at mattis eros scelerisque ac.
-  </p>
-  <p>
-    Praesent condimentum vitae dui et eleifend. Praesent egestas malesuada dui et tincidunt. Donec gravida arcu leo. Integer efficitur congue viverra. Integer et maximus ipsum. Maecenas vitae pretium nunc. Integer euismod maximus metus eu rutrum. Nullam non pulvinar quam, a accumsan orci. Nam placerat vel felis vel euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin interdum sit amet enim a molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras quis turpis eleifend, iaculis elit in, auctor dui. Integer et magna at lacus cursus scelerisque.
-  </p>
-  <p>
-    Donec posuere luctus quam, non dapibus tellus iaculis bibendum. Vestibulum tincidunt dignissim risus, nec auctor eros bibendum sit amet. In hac habitasse platea dictumst. Sed feugiat eget sem at convallis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vitae sollicitudin elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sit amet turpis eget nulla interdum ultricies vel nec leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-  </p>
+  {{#materializeModalBody}}
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque suscipit at odio vitae efficitur. Suspendisse sodales, sapien sed ullamcorper tincidunt, erat nisi imperdiet massa, eu viverra massa urna feugiat eros. Suspendisse eu nibh efficitur, tristique nibh vehicula, molestie lorem. Aliquam interdum rhoncus urna in dictum. Sed ut metus in sem accumsan tempor. Integer sit amet sodales lorem, at suscipit justo. Pellentesque vel mattis arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sit amet felis vulputate, condimentum purus nec, posuere augue. Maecenas leo velit, eleifend a libero vel, imperdiet faucibus libero. Suspendisse sed suscipit erat, id tincidunt ex. Praesent lobortis egestas congue. Curabitur ut tellus turpis. Nulla convallis augue libero, ac finibus leo porttitor ac.
+    </p>
+    <p>
+      Cras dictum feugiat velit nec rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur pretium tempor neque, sed imperdiet augue luctus vel. Sed eleifend erat in eros ultricies, in placerat ipsum auctor. Vestibulum sit amet purus consequat, porttitor neque luctus, dapibus elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at purus mauris. Donec massa lectus, consequat id turpis at, rhoncus condimentum purus. Aliquam hendrerit nisi sit amet arcu ullamcorper facilisis. Praesent mi sapien, tincidunt vitae pellentesque sed, accumsan quis tellus. Sed porta bibendum posuere.
+    </p>
+    <p>
+      Cras id eros a erat finibus dapibus. Mauris vel dui at justo vestibulum lobortis ac ac dui. Quisque facilisis ornare eros, vitae ultricies risus rhoncus porttitor. Vivamus tempus erat non volutpat aliquam. Nullam eu mi rutrum, vestibulum dui nec, vestibulum nulla. Integer faucibus in nunc quis scelerisque. Vivamus urna arcu, posuere at auctor et, convallis convallis orci. Vestibulum porttitor neque leo, at mattis eros scelerisque ac.
+    </p>
+    <p>
+      Praesent condimentum vitae dui et eleifend. Praesent egestas malesuada dui et tincidunt. Donec gravida arcu leo. Integer efficitur congue viverra. Integer et maximus ipsum. Maecenas vitae pretium nunc. Integer euismod maximus metus eu rutrum. Nullam non pulvinar quam, a accumsan orci. Nam placerat vel felis vel euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin interdum sit amet enim a molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras quis turpis eleifend, iaculis elit in, auctor dui. Integer et magna at lacus cursus scelerisque.
+    </p>
+    <p>
+      Donec posuere luctus quam, non dapibus tellus iaculis bibendum. Vestibulum tincidunt dignissim risus, nec auctor eros bibendum sit amet. In hac habitasse platea dictumst. Sed feugiat eget sem at convallis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vitae sollicitudin elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sit amet turpis eget nulla interdum ultricies vel nec leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+    </p>
+  {{/materializeModalBody}}
 </template>
