@@ -1,0 +1,78 @@
+<template name="basicModal">
+  {{#modalizeBody}}
+    <p>This is the modal body!</p>
+  {{/modalizeBody}}
+
+  {{#modalizeFooter}}
+    <button data-modalize-close class="btn cyan darken-3">Ok</button>
+  {{/modalizeFooter}}
+</template>
+
+<template name="aboutMe">
+  {{#modalizeBody}}
+    I am a {{age}}-year-old developer.  I have {{cats.length}} cats:
+    {{#each cats}}
+      One is named {{this}}.
+    {{/each}}
+  {{/modalizeBody}}
+</template>
+
+
+<template name="myTmpl">
+  <form>
+    {{#modalizeBody}}
+      <p>
+        To close the modal, type:
+        <blockquote>
+          close the modal
+        </blockquote>
+      </p>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="myInput" type="text"/>
+          <label for="myInput">Say the magic words...</label>
+        </div>
+      </div>
+    {{/modalizeBody}}
+
+    {{#modalizeFooter}}
+      <button type="submit" class="waves-effect waves-light btn purple">Check Input</button>
+    {{/modalizeFooter}}
+  </form>
+</template>
+
+<template name="customDismiss">
+  {{#modalizeBody}}
+    <p>
+      You can check out anytime you'd like.
+    </p>
+  {{/modalizeBody}}
+
+  {{#modalizeFooter}}
+    <button data-modalize-close class="btn cyan darken-3">Exit</button>
+  {{/modalizeFooter}}
+</template>
+
+<template name="loremIpsum">
+  {{#modalizeBody}}
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque suscipit at odio vitae efficitur. Suspendisse sodales, sapien sed ullamcorper tincidunt, erat nisi imperdiet massa, eu viverra massa urna feugiat eros. Suspendisse eu nibh efficitur, tristique nibh vehicula, molestie lorem. Aliquam interdum rhoncus urna in dictum. Sed ut metus in sem accumsan tempor. Integer sit amet sodales lorem, at suscipit justo. Pellentesque vel mattis arcu. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sit amet felis vulputate, condimentum purus nec, posuere augue. Maecenas leo velit, eleifend a libero vel, imperdiet faucibus libero. Suspendisse sed suscipit erat, id tincidunt ex. Praesent lobortis egestas congue. Curabitur ut tellus turpis. Nulla convallis augue libero, ac finibus leo porttitor ac.
+    </p>
+    <p>
+      Cras dictum feugiat velit nec rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur pretium tempor neque, sed imperdiet augue luctus vel. Sed eleifend erat in eros ultricies, in placerat ipsum auctor. Vestibulum sit amet purus consequat, porttitor neque luctus, dapibus elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at purus mauris. Donec massa lectus, consequat id turpis at, rhoncus condimentum purus. Aliquam hendrerit nisi sit amet arcu ullamcorper facilisis. Praesent mi sapien, tincidunt vitae pellentesque sed, accumsan quis tellus. Sed porta bibendum posuere.
+    </p>
+    <p>
+      Cras id eros a erat finibus dapibus. Mauris vel dui at justo vestibulum lobortis ac ac dui. Quisque facilisis ornare eros, vitae ultricies risus rhoncus porttitor. Vivamus tempus erat non volutpat aliquam. Nullam eu mi rutrum, vestibulum dui nec, vestibulum nulla. Integer faucibus in nunc quis scelerisque. Vivamus urna arcu, posuere at auctor et, convallis convallis orci. Vestibulum porttitor neque leo, at mattis eros scelerisque ac.
+    </p>
+    <p>
+      Praesent condimentum vitae dui et eleifend. Praesent egestas malesuada dui et tincidunt. Donec gravida arcu leo. Integer efficitur congue viverra. Integer et maximus ipsum. Maecenas vitae pretium nunc. Integer euismod maximus metus eu rutrum. Nullam non pulvinar quam, a accumsan orci. Nam placerat vel felis vel euismod. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin interdum sit amet enim a molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras quis turpis eleifend, iaculis elit in, auctor dui. Integer et magna at lacus cursus scelerisque.
+    </p>
+    <p>
+      Donec posuere luctus quam, non dapibus tellus iaculis bibendum. Vestibulum tincidunt dignissim risus, nec auctor eros bibendum sit amet. In hac habitasse platea dictumst. Sed feugiat eget sem at convallis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean vitae sollicitudin elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean sit amet turpis eget nulla interdum ultricies vel nec leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+    </p>
+  {{/modalizeBody}}
+
+  {{#modalizeFooter}}
+    <button data-modalize-close class="btn cyan darken-3">Ok</button>
+  {{/modalizeFooter}}
+</template>
