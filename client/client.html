@@ -1,5 +1,5 @@
 <head>
-  <title>Materialize Modal for Meteor</title>
+  <title>Meteoric Modals for Materialize</title>
   <meta name="theme-color" content="#66BB6A"/>
   <meta id="meta" name="viewport" content="initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -9,19 +9,19 @@
 
   <ul id="source-dropdown" class="dropdown-content">
     <li>
-      <a href="https://github.com/MeteorStuff/meteor-materialize-modal">Package Source</a>
+      <a href="https://github.com/msolters/modalize">Package Source</a>
     </li>
     <li>
-      <a href="http://github.com/MeteorStuff/meteor-materialize-modal-test">This Page!</a>
+      <a href="http://github.com/msolters/meteor-materialize-modal-test">This Page!</a>
     </li>
   </ul>
   <div class="navbar-fixed">
     <nav class="green lighten-1">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo hide-on-med-and-down">MaterializeModal</a>
+        <a href="#" class="brand-logo hide-on-med-and-down">Modalize</a>
         <ul id="nav-mobile" class="right">
           <li>
-            <a href="https://atmospherejs.com/meteorstuff/materialize-modal">Atmosphere</a>
+            <a href="https://atmospherejs.com/msolters/modalize">Atmosphere</a>
           </li>
           <li>
             <a class="dropdown-button" href="#!" data-activates="source-dropdown" data-beloworigin="true">Get the Code!<i class="material-icons right">code</i></a>
@@ -37,21 +37,15 @@
         <div class="col s12 m9 l10">
           <!--  Quick Start -->
           <div id="top" class="section scrollspy">
-            <h1>MaterializeModal</h1>
+            <h1>Modalize</h1>
             <p class="flow-text">
-              The <a href="http://materializecss.com/">Materialize</a> project already offers some great modal solutions.
-            </p>
-            <p class="flow-text">
-              But if you're using Meteor, it's not convenient or obvious how to get your templates and reactive data contexts into the modal.
-            </p>
-            <p class="flow-text">
-              That's where MaterializeModal comes in.  It allows you to programmatically create and close modals by directly passing in Meteor templates and reactive data sources, making your modals first class citizens of your Meteor app!
+              Seamless, reactive template-based modals for materialize:materialize.
             </p>
           </div>
           <div class="section">
             <h2>Install</h2>
             {{#prism language="bash"}}
-              meteor add meteorstuff:materialize-modals
+              meteor add msolters:modalize
             {{/prism}}
           </div>
           <div class="section">
@@ -176,10 +170,6 @@
           <div id="fixed-footer" class="section scrollspy">
             <h4>Fixed Footer</h4>
             {{> fixedFooter}}
-          </div>
-          <div id="custom-footer" class="section scrollspy">
-            <h4>Custom Footer Template</h4>
-            {{> customFooter}}
           </div>
           <div id="fullscreen" class="section scrollspy">
             <h4>Full Screen</h4>
