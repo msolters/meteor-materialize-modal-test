@@ -148,30 +148,6 @@ Template.customFooter.events({
   }
 });
 
-Template.myTmpl.events({
-  "click button[data-custom-action], submit form": function(e, tmpl) {
-    //  (1) Grab the user's input
-    var result = tmpl.find("input#myInput").value;
-    //  (2) Do some custom logic!
-    if (result === "close the modal") {
-      Materialize.toast("That's the ticket!  Closing the modal.", 5000, "green");
-      MaterializeModal.close();
-    } else {
-      Materialize.toast("Sorry, that's not the right command.", 5000, "red");
-    }
-    return false;
-  }
-});
-
-Template.customExample.events({
-  "click button#example-custom-footer-events": function(e, tmpl) {
-    MaterializeModal.display({
-      bodyTemplate: "myTmpl",
-      footerTemplate: "myFtr"
-    });
-  }
-});
-
 Template.fullscreen.events({
   "click button#example-fullscreen": function(e, tmpl) {
     MaterializeModal.message({

@@ -81,20 +81,11 @@
                 bodyTemplate: "myTemplateName"
               });
             {{/prism}}
-            <blockquote>
             <p>
-              To take full advantage of the MaterializeModal features, make sure to wrap your `bodyTemplate` markup in the provided <code class="language-html">{{|#materializeModalBody}}{{|/materializeModalBody}}</code> helper.  This will help automatically position footers, titles and more.  If you want to completely control modal content, without any helpers, just don't use the wrapper.
+              <blockquote>
+                This works not just with <code class="language-javascript">MaterializeModal.display()</code>, but all the pre-baked modal methods listed below.  We leverage it, for example, in the <code class="language-javascript">MaterializeModal.form()</code> helper.  Feel free to experiment!
+              </blockquote>
             </p>
-            {{#prism language="blaze" class="line-numbers"}}
-            &lt;template name=&quot;myTemplateName&quot;&gt;
-              {{|#materializeModalBody}}
-                &lt;p&gt;
-                  Make sure to wrap your template markup with the {{|#materializeModalBody}} wrapper!
-                &lt;/p&gt;
-              {{|/materializeModalBody}}
-            &lt;/template&gt;
-            {{/prism}}
-          </blockquote>
             <p>
               Since your template can now reactively take care of the heavy lifting (just like any other Meteor template), you don't need to cram your logic into the modal's callback to handle the user's actions!  So the only question is -- when my template is done doing its thing, how do I close the modal?  Easy!
             </p>
@@ -116,10 +107,6 @@
           <div id="callbacks" class="section scrollspy">
             <h4>Callbacks</h4>
             {{> callbacks}}
-          </div>
-          <div id="custom-example" class="section scrollspy">
-            <h4>Fully Meteoric Example</h4>
-            {{> customExample}}
           </div>
 
           <!--  Pre-baked Modals  -->
